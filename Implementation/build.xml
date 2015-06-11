@@ -19,6 +19,9 @@
         <pathelement location="lib/jboss-transaction-api_1.2_spec-1.0.0.Final.jar"/>
         <pathelement location="lib/postgresql-9.2-1003.jdbc4.jar"/>
         <pathelement location="lib/slf4j-api-1.6.1.jar"/>
+    	<pathelement location="lib/xalan.jar"/>
+    	<pathelement location="lib/xercesImpl.jar"/>
+    	<pathelement location="lib/xml-apis.jar"/>
     </path>
     <target name="init">
         <mkdir dir="bin"/>
