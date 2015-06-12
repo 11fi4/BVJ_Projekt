@@ -22,6 +22,11 @@ public class PublishingController {
 			String inputXml) {
 
 		try {
+			
+			if(!Configuration.IsInitialized())
+			{
+				Configuration.Initialise();
+			}
 
 			PublisherBase publisher = getPublisher(format);
 			Path tempDir = getTempDirectory();
