@@ -4,6 +4,8 @@ public enum Formats {
 	
 	Html,
 	
-	Pdf
+	Pdf,
+	
+	Word
 
 }

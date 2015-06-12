@@ -2,6 +2,12 @@ package com.impl.report;
 
 import java.lang.UnsupportedOperationException;
 import java.util.UUID;
+import java.io.*;
+import java.nio.file.*;
+
+import com.impl.report.html.HtmlPublisher;
+import com.impl.report.pdf.PdfPublisher;
+import com.impl.report.word.WordPublisher;
 
 //TODO: remove this warning later
 @SuppressWarnings("unused")
@@ -12,8 +18,12 @@ public class PublishingController {
 		try {
 
 			PublisherBase publisher = getPublisher(format);
+			Path tempDir = getTempDirectory();
+			
+			//TODO make sure dir doesn't exist -> loop new creation
 
-			// TODO generate inputFile
+			String inputXmlPath = Paths.get(tempDir.getFileName().toString(), "input.xml").toString();
+			
 			// TODO calc outputpath (use UUID for random tempdir-generic)
 
 			String publishedDocument = publisher.Publish("", "");
@@ -22,6 +32,23 @@ public class PublishingController {
 		} catch (Exception ex) {
 			// TODO implement logging
 		}
+	}
+	
+	private static Path getTempDirectory()
+	{
+		UUID id = UUID.randomUUID();
+		
+		String tempDir = "TODO: make configurable";
+		
+		Path tempPath = Paths.get(tempDir, id.toString());
+
+		//if configured path is not absolute -> normalize
+		if(!tempPath.isAbsolute())
+		{
+			tempPath = tempPath.toAbsolutePath();
+		}
+		
+		return tempPath;
 	}
 
 	/**
@@ -40,6 +67,9 @@ public class PublishingController {
 
 		case Pdf:
 			return new PdfPublisher();
+			
+		case Word:
+			return new WordPublisher();
 
 		default:
 			String message = String.format(
