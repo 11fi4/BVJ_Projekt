@@ -1,21 +1,18 @@
 package com.impl.report;
 
-import java.lang.UnsupportedOperationException;
-import java.util.Iterator;
-import java.util.UUID;
+import java.lang.*;
+import java.util.*;
 import java.io.*;
 import java.net.URI;
 import java.nio.file.*;
-import java.nio.file.FileSystem;
 import java.nio.file.WatchEvent.Kind;
 import java.nio.file.WatchEvent.Modifier;
 
+//report.publisher
 import com.impl.report.html.HtmlPublisher;
 import com.impl.report.pdf.PdfPublisher;
 import com.impl.report.word.WordPublisher;
 
-//TODO: remove this warning later
-@SuppressWarnings("unused")
 public class PublishingController {
 
 	public static void Publish(Formats format, DocumentType type,
@@ -39,12 +36,37 @@ public class PublishingController {
 			String inputXmlPath = Paths.get(tempDir.getFileName().toString(),
 					"input.xml").toString();
 			String outputPath = getOutputPath(tempDir, format);
+			
+			AddOptionalComponents(publisher);
 
 			String publishedDocument = publisher.Publish("", "");
 
-			// TODO implement
 		} catch (Exception ex) {
 			// TODO implement logging
+		}
+	}
+	
+	private static void AddOptionalComponents(PublisherBase publisher)
+	{
+		if(publisher instanceof HtmlPublisher)
+		{
+			HtmlPublisher htmlPub = ((HtmlPublisher)publisher);
+			
+			//TODO add optional parameters
+		}
+		
+		if(publisher instanceof PdfPublisher)
+		{
+			PdfPublisher pdfPub = ((PdfPublisher)publisher);
+			
+			//TODO add optional parameters
+		}
+		
+		if(publisher instanceof WordPublisher)
+		{
+			WordPublisher wordPub = ((WordPublisher)publisher);
+			
+			//TODO add optional parameters
 		}
 	}
 	
@@ -90,7 +112,7 @@ public class PublishingController {
 		String tempDir = "TODO: make configurable";
 
 		Path tempPath = Paths.get(tempDir, id.toString());
-
+		
 		// if configured path is not absolute -> normalize
 		if (!tempPath.isAbsolute()) {
 			tempPath = tempPath.toAbsolutePath();
@@ -128,9 +150,15 @@ public class PublishingController {
 		}
 	}
 
+	/*
+	*Throws Exception with message for not yet fully Supported formats
+	*
+	*@param format
+	*	    The format that is not supported
+	*/
 	private static void TrowNotSupportedForFormat(Formats format) {
 		String message = String.format(
-				"No publisher has been implemented for Format '{0}'.",
+				"No publisher has been fully implemented for Format '{0}'.",
 				format.toString());
 		throw new UnsupportedOperationException(message);
 	}
