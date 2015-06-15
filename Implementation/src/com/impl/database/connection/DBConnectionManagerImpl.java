@@ -122,6 +122,7 @@ public class DBConnectionManagerImpl implements DBConnectionManager {
 			factory = new AnnotationConfiguration().configure()
 					.buildSessionFactory();
 		} catch (Exception ex) {
+			logger.error("Unexpected connection error" + ex.getCause());
 			ex.printStackTrace();
 		}
 	}

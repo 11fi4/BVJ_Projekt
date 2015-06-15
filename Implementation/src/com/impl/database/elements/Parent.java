@@ -9,22 +9,27 @@ import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.Table;
 
 /**
  * @author kuslu
  *
  */
+@Entity
+@Table(name = "PARENT")
 public class Parent implements Serializable {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 	@Id
-	@GeneratedValue //(generator = "increment")
+	@GeneratedValue
+	// (generator = "increment")
 	@Column(name = "parent_id")
 	protected int parent_id;
 	@Column(name = "name", nullable = false)

@@ -11,6 +11,7 @@ import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -26,7 +27,7 @@ import javax.persistence.UniqueConstraint;
  *
  */
 @Entity
-@Table(name = "STUDENT", catalog = "backenddb")
+@Table(name = "STUDENT")
 public class Student implements Serializable {
 	/**
 	 * 
@@ -54,16 +55,17 @@ public class Student implements Serializable {
 	protected String phoneNumber;
 	@Column(name = "address")
 	protected String address;
-
+	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JoinTable(name = "STUDENT_PARENT",//
+	joinColumns = { @JoinColumn(name = "STUDENT_ID", nullable = false, updatable = false) },//
+	inverseJoinColumns = { @JoinColumn(name = "PARENT_ID", nullable = false, updatable = false) })
 	protected Set<Parent> parents = new HashSet<Parent>();
 
 	public Student() {
 	}
 
-	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinTable(name = "STUDENT_PARENT", catalog = "backenddb",//
-	joinColumns = { @JoinColumn(name = "STUDENT_ID", nullable = false, updatable = false) },//
-	inverseJoinColumns = { @JoinColumn(name = "PARENT_ID", nullable = false, updatable = false) })
+	
+	
 	public Set<Parent> getParents() {
 		return this.parents;
 	}
