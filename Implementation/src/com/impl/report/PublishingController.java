@@ -1,12 +1,8 @@
 package com.impl.report;
 
-import java.lang.*;
 import java.util.*;
 import java.io.*;
-import java.net.URI;
 import java.nio.file.*;
-import java.nio.file.WatchEvent.Kind;
-import java.nio.file.WatchEvent.Modifier;
 
 //report.publisher
 import com.impl.report.html.HtmlPublisher;
@@ -34,8 +30,11 @@ public class PublishingController {
 				Configuration.Initialise();
 			}
 
-			PublisherBase publisher = getPublisher(format);
 			Path tempDir = getTempDirectory();
+			
+			//set up pblisher
+			PublisherBase publisher = createPublisher(format,tempDir);
+			AddOptionalComponents(publisher);
 
 			// if directory exists -> create new
 			while (Files.exists(tempDir, null)) {
@@ -49,8 +48,6 @@ public class PublishingController {
 			String outputPath = getOutputPath(tempDir, format);
 
 			EnsureDirctory(tempDir);
-			publisher.SetTempDir(tempDir);
-			AddOptionalComponents(publisher);
 
 			String publishedDocument = publisher.Publish("", "");
 
@@ -138,18 +135,18 @@ public class PublishingController {
 	 *            The document format that should be published.
 	 * @return returns a publisher that is derived from PublisherBase
 	 */
-	private static PublisherBase getPublisher(Formats format) {
+	private static PublisherBase createPublisher(Formats format,Path tempDir) {
 
 		switch (format) {
 
 		case Html:
-			return new HtmlPublisher();
+			return new HtmlPublisher(tempDir);
 
 		case Pdf:
-			return new PdfPublisher();
+			return new PdfPublisher(tempDir);
 
 		case Word:
-			return new WordPublisher();
+			return new WordPublisher(tempDir);
 
 		default:
 			TrowNotSupportedForFormat(format);

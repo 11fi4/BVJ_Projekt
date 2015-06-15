@@ -2,13 +2,12 @@ package com.impl.report;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
 import javax.xml.parsers.*;
-import javax.xml.transform.*;
-import javax.xml.transform.dom.*;
-import javax.xml.transform.stream.*;
 
 import org.xml.sax.*;
 import org.w3c.dom.*;
@@ -56,7 +55,12 @@ public class Configuration {
 		if(tempNodeList.getLength()==1)
 		{
 			String tmpVal = tempNodeList.item(0).getNodeValue();
-			_tempDir = Paths.get(tmpVal, null);
+			try {
+				_tempDir = Paths.get(new URI(tmpVal));
+			} catch (URISyntaxException e) {
+				// TODO Auto-generated catch block
+				//e.printStackTrace();
+			}
 		}
 	}
 

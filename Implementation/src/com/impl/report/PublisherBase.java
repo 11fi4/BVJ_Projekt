@@ -6,7 +6,22 @@ public abstract class PublisherBase {
 	
 	private Path _tempDir;
 	
-	public void SetTempDir(Path dir)
+	/**
+	 * The directory used for temporary files
+	 * 
+	 * @return
+	 */
+	public Path GetTempDir()
+	{
+		return _tempDir;
+	}
+	
+	/**
+	 * Creates a new instance
+	 * 
+	 * @param dir The directory that should be used for temporary files
+	 */
+	public PublisherBase(Path dir)
 	{
 		_tempDir = dir;
 	}
