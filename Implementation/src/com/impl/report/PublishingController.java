@@ -15,8 +15,15 @@ import com.impl.report.word.WordPublisher;
 
 public class PublishingController {
 
+	/**
+	 * Starts a publication
+	 * 
+	 * @param format Document format that is requested
+	 * @param type Type of Document requested
+	 * @param inputParams Json with input-parameters
+	 */
 	public static void Publish(Formats format, DocumentType type,
-			String inputXml) {
+			String inputParams) {
 
 		try {
 			
@@ -37,7 +44,9 @@ public class PublishingController {
 					"input.xml").toString();
 			String outputPath = getOutputPath(tempDir, format);
 			
+			PrepareFiles(tempDir,inputXmlPath);
 			AddOptionalComponents(publisher);
+			publisher.SetTempDir(tempDir);
 
 			String publishedDocument = publisher.Publish("", "");
 
@@ -70,16 +79,12 @@ public class PublishingController {
 		}
 	}
 	
-	private static void PrepareFiles(Path tempDir,String inFile) throws IOException
+	private static void PrepareFiles(Path tempDir,String inputXml) throws IOException
 	{
-		//TODO remove nulls here
-		
 		if(!Files.exists(tempDir, null))
 		{
 			Files.createDirectory(tempDir, null);
 		}
-		
-		//TODO copy inFile into TempDir
 	}
 
 	private static String getOutputPath(Path tempDir, Formats format) {
