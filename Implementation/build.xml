@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<project basedir="." default="build" name="BVJ_Backend">
+<!-- WARNING: Eclipse auto-generated file.
+              Any modifications will be overwritten.
+              To include a user specific buildfile here, simply create one in the same
+              directory with the processing instruction <?eclipse.ant.import?>
+              as the first entry and export the buildfile again. --><project basedir="." default="build" name="BVJ_Backend">
     <property environment="env"/>
     <property name="debuglevel" value="source,lines,vars"/>
     <property name="target" value="1.8"/>
@@ -19,9 +23,10 @@
         <pathelement location="lib/jboss-transaction-api_1.2_spec-1.0.0.Final.jar"/>
         <pathelement location="lib/postgresql-9.2-1003.jdbc4.jar"/>
         <pathelement location="lib/slf4j-api-1.6.1.jar"/>
-    	<pathelement location="lib/xalan.jar"/>
-    	<pathelement location="lib/xercesImpl.jar"/>
-    	<pathelement location="lib/xml-apis.jar"/>
+        <pathelement location="lib/serializer.jar"/>
+        <pathelement location="lib/xalan.jar"/>
+        <pathelement location="lib/xercesImpl.jar"/>
+        <pathelement location="lib/xml-apis.jar"/>
     </path>
     <target name="init">
         <mkdir dir="bin"/>
@@ -68,6 +73,11 @@
     </target>
     <target name="HibernateRunner">
         <java classname="com.sample.hibernate.driver.HibernateRunner" failonerror="true" fork="yes">
+            <classpath refid="BVJ_Backend.classpath"/>
+        </java>
+    </target>
+    <target name="TestApplication">
+        <java classname="com.impl.database.test.TestApplication" failonerror="true" fork="yes">
             <classpath refid="BVJ_Backend.classpath"/>
         </java>
     </target>
