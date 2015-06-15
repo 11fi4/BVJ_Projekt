@@ -18,17 +18,19 @@ public class PublishingController {
 	/**
 	 * Starts a publication
 	 * 
-	 * @param format Document format that is requested
-	 * @param type Type of Document requested
-	 * @param inputParams Json with input-parameters
+	 * @param format
+	 *            Document format that is requested
+	 * @param type
+	 *            Type of Document requested
+	 * @param inputParams
+	 *            Json with input-parameters
 	 */
 	public static void Publish(Formats format, DocumentType type,
 			String inputParams) {
 
 		try {
-			
-			if(!Configuration.IsInitialized())
-			{
+
+			if (!Configuration.IsInitialized()) {
 				Configuration.Initialise();
 			}
 
@@ -40,13 +42,15 @@ public class PublishingController {
 				tempDir = getTempDirectory();
 			}
 
+			String inputXml = JsonToXmlConverter.ConvertToXml(inputParams);
 			String inputXmlPath = Paths.get(tempDir.getFileName().toString(),
 					"input.xml").toString();
+
 			String outputPath = getOutputPath(tempDir, format);
-			
-			PrepareFiles(tempDir,inputXmlPath);
-			AddOptionalComponents(publisher);
+
+			EnsureDirctory(tempDir);
 			publisher.SetTempDir(tempDir);
+			AddOptionalComponents(publisher);
 
 			String publishedDocument = publisher.Publish("", "");
 
@@ -54,35 +58,35 @@ public class PublishingController {
 			// TODO implement logging
 		}
 	}
-	
-	private static void AddOptionalComponents(PublisherBase publisher)
-	{
-		if(publisher instanceof HtmlPublisher)
-		{
-			HtmlPublisher htmlPub = ((HtmlPublisher)publisher);
-			
-			//TODO add optional parameters
+
+	/**
+	 * Adds optional Parameters per format from configuration
+	 * 
+	 * @param publisher
+	 *            the instance of the publisher
+	 */
+	private static void AddOptionalComponents(PublisherBase publisher) {
+		if (publisher instanceof HtmlPublisher) {
+			HtmlPublisher htmlPub = ((HtmlPublisher) publisher);
+
+			// TODO add optional parameters
 		}
-		
-		if(publisher instanceof PdfPublisher)
-		{
-			PdfPublisher pdfPub = ((PdfPublisher)publisher);
-			
-			//TODO add optional parameters
+
+		if (publisher instanceof PdfPublisher) {
+			PdfPublisher pdfPub = ((PdfPublisher) publisher);
+
+			// TODO add optional parameters
 		}
-		
-		if(publisher instanceof WordPublisher)
-		{
-			WordPublisher wordPub = ((WordPublisher)publisher);
-			
-			//TODO add optional parameters
+
+		if (publisher instanceof WordPublisher) {
+			WordPublisher wordPub = ((WordPublisher) publisher);
+
+			// TODO add optional parameters
 		}
 	}
-	
-	private static void PrepareFiles(Path tempDir,String inputXml) throws IOException
-	{
-		if(!Files.exists(tempDir, null))
-		{
+
+	private static void EnsureDirctory(Path tempDir) throws IOException {
+		if (!Files.exists(tempDir, null)) {
 			Files.createDirectory(tempDir, null);
 		}
 	}
@@ -114,10 +118,10 @@ public class PublishingController {
 	private static Path getTempDirectory() {
 		UUID id = UUID.randomUUID();
 
-		String tempDir = "TODO: make configurable";
+		String tempDir = Configuration.GetTempDir().toString();
 
 		Path tempPath = Paths.get(tempDir, id.toString());
-		
+
 		// if configured path is not absolute -> normalize
 		if (!tempPath.isAbsolute()) {
 			tempPath = tempPath.toAbsolutePath();
@@ -156,11 +160,10 @@ public class PublishingController {
 	}
 
 	/*
-	*Throws Exception with message for not yet fully Supported formats
-	*
-	*@param format
-	*	    The format that is not supported
-	*/
+	 * Throws Exception with message for not yet fully Supported formats
+	 * 
+	 * @param format The format that is not supported
+	 */
 	private static void TrowNotSupportedForFormat(Formats format) {
 		String message = String.format(
 				"No publisher has been fully implemented for Format '{0}'.",

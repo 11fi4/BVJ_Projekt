@@ -27,7 +27,6 @@ public class Configuration {
 		return _isInitialized;
 	}
 
-	// TODO initialise
 	public static void Initialise() {
 		File configFile = new File("/cfg/report.cfg.xml");
 
