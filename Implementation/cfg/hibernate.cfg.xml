@@ -18,7 +18,8 @@
 
 
      <!-- Mapping classes -->
-   <mapping class="com.sample.hibernate.dto.Persons"/>
+   <mapping class="com.impl.database.elements.Parent"/>
+   <mapping class="com.impl.database.elements.Student"/>
 
     </session-factory>
 </hibernate-configuration>
