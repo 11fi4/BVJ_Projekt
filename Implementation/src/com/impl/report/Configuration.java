@@ -1,7 +1,9 @@
 package com.impl.report;
 
 import java.io.File;
+import java.io.IOException;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 
 import javax.xml.parsers.*;
 import javax.xml.transform.*;
@@ -39,8 +41,24 @@ public class Configuration {
 			//e.printStackTrace();
 		}
 
-		// TODO read doc
 		Document doc = null;
+		
+		try {
+			doc = builder.parse(configFile);
+		} catch (SAXException e) {
+			// TODO Auto-generated catch block
+			//e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			//e.printStackTrace();
+		}
+		
+		NodeList tempNodeList = doc.getElementsByTagName("TempDir");
+		if(tempNodeList.getLength()==1)
+		{
+			String tmpVal = tempNodeList.item(0).getNodeValue();
+			_tempDir = Paths.get(tmpVal, null);
+		}
 	}
 
 }
