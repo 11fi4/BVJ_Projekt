@@ -31,24 +31,30 @@ public class PublishingController {
 			}
 
 			Path tempDir = getTempDirectory();
-			
-			//set up pblisher
-			PublisherBase publisher = createPublisher(format,tempDir);
+
+			// set up pblisher
+			PublisherBase publisher = createPublisher(format, type, tempDir);
 			AddOptionalComponents(publisher);
 
 			// if directory exists -> create new
-			while (Files.exists(tempDir, null)) {
+			while (Files.exists(tempDir, LinkOption.NOFOLLOW_LINKS)) {
 				tempDir = getTempDirectory();
 			}
 
+			@SuppressWarnings("unused")
 			String inputXml = JsonToXmlConverter.ConvertToXml(inputParams);
+			@SuppressWarnings("unused")
 			String inputXmlPath = Paths.get(tempDir.getFileName().toString(),
 					"input.xml").toString();
 
+			// TODO write inputXml to inputXmlPath
+
+			@SuppressWarnings("unused")
 			String outputPath = getOutputPath(tempDir, format);
 
 			EnsureDirctory(tempDir);
 
+			@SuppressWarnings("unused")
 			String publishedDocument = publisher.Publish("", "");
 
 		} catch (Exception ex) {
@@ -63,28 +69,15 @@ public class PublishingController {
 	 *            the instance of the publisher
 	 */
 	private static void AddOptionalComponents(PublisherBase publisher) {
+		
 		if (publisher instanceof HtmlPublisher) {
-			HtmlPublisher htmlPub = ((HtmlPublisher) publisher);
-
-			// TODO add optional parameters
-		}
-
-		if (publisher instanceof PdfPublisher) {
-			PdfPublisher pdfPub = ((PdfPublisher) publisher);
-
-			// TODO add optional parameters
-		}
-
-		if (publisher instanceof WordPublisher) {
-			WordPublisher wordPub = ((WordPublisher) publisher);
-
-			// TODO add optional parameters
+			//TODO: maybe add optional componants like a singleton XsdReader f.ex??
 		}
 	}
 
 	private static void EnsureDirctory(Path tempDir) throws IOException {
-		if (!Files.exists(tempDir, null)) {
-			Files.createDirectory(tempDir, null);
+		if (!Files.exists(tempDir, LinkOption.NOFOLLOW_LINKS)) {
+			Files.createDirectory(tempDir);
 		}
 	}
 
@@ -135,18 +128,19 @@ public class PublishingController {
 	 *            The document format that should be published.
 	 * @return returns a publisher that is derived from PublisherBase
 	 */
-	private static PublisherBase createPublisher(Formats format,Path tempDir) {
+	private static PublisherBase createPublisher(Formats format,
+			DocumentType type, Path tempDir) {
 
 		switch (format) {
 
 		case Html:
-			return new HtmlPublisher(tempDir);
+			return new HtmlPublisher(tempDir, type);
 
 		case Pdf:
-			return new PdfPublisher(tempDir);
+			return new PdfPublisher(tempDir, type);
 
 		case Word:
-			return new WordPublisher(tempDir);
+			return new WordPublisher(tempDir, type);
 
 		default:
 			TrowNotSupportedForFormat(format);

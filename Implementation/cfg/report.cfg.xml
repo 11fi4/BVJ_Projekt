@@ -3,4 +3,9 @@
 	<EnviromentSettings>
 		<TempDir>C:\Temp</TempDir>
 	</EnviromentSettings>
-</ReportConfig
+	<Settings>
+		<SettingsGroup Format="Pdf">
+			<Set Key="Version" Value="1.4"/>
+		</SettingsGroup>
+	</Settings>
+</ReportConfig>

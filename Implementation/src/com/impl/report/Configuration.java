@@ -2,6 +2,7 @@ package com.impl.report;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.*;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.nio.file.Path;
@@ -18,6 +19,23 @@ public class Configuration {
 
 	public static Path GetTempDir() {
 		return _tempDir;
+	}
+	
+	private static Dictionary<Formats,FormatSettings> _formatSettings;
+	
+	public static FormatSettings GetSettingsForFormat(Formats format)
+	{
+		if(_formatSettings!=null)
+		{
+			FormatSettings settings = _formatSettings.get(format);
+			if(settings!=null)
+			{
+				return null;
+			}
+		}
+		
+		//default if no settings where configured or no Settings for format where found
+		return null;
 	}
 
 	private static boolean _isInitialized;
@@ -51,6 +69,8 @@ public class Configuration {
 			//e.printStackTrace();
 		}
 		
+		
+		//TODO get this with XPAth
 		NodeList tempNodeList = doc.getElementsByTagName("TempDir");
 		if(tempNodeList.getLength()==1)
 		{

@@ -6,8 +6,8 @@ import com.impl.report.*;
 
 public class PdfPublisher extends PublisherBase{
 
-	public PdfPublisher(Path dir) {
-		super(dir);
+	public PdfPublisher(Path dir,DocumentType type) {
+		super(dir,type);
 	}
 
 	@Override

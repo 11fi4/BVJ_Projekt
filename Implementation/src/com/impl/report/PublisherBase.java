@@ -16,14 +16,22 @@ public abstract class PublisherBase {
 		return _tempDir;
 	}
 	
+	private DocumentType _type;
+	
+	public DocumentType GetDocumentType()
+	{
+		return _type;
+	}
+	
 	/**
 	 * Creates a new instance
 	 * 
 	 * @param dir The directory that should be used for temporary files
 	 */
-	public PublisherBase(Path dir)
+	public PublisherBase(Path dir,DocumentType type)
 	{
 		_tempDir = dir;
+		_type = type;
 	}
 	
 	public abstract String Publish(String inputFile,String outputFile);

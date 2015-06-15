@@ -6,8 +6,8 @@ import com.impl.report.*;
 
 public class WordPublisher extends PublisherBase {
 
-	public WordPublisher(Path dir) {
-		super(dir);
+	public WordPublisher(Path dir,DocumentType type) {
+		super(dir,type);
 	}
 
 	@Override
