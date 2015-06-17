@@ -1,11 +1,17 @@
 package com.impl.report;
 
+/**
+ * All types of documents that are supposed to be published
+ * 
+ * @author Johannes
+ *
+ */
 public enum DocumentType {
-	
-	Mahnung,
-	
+
+	Attest,
+
 	Nachweis,
-	
+
 	Verweis
 
 }

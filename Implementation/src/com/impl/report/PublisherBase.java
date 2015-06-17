@@ -2,6 +2,12 @@ package com.impl.report;
 
 import java.nio.file.Path;
 
+/**
+ * Baseclass for publisher
+ * 
+ * @author Johannes
+ *
+ */
 public abstract class PublisherBase {
 
 	private Path _tempDir;
@@ -17,12 +23,22 @@ public abstract class PublisherBase {
 
 	private DocumentType _type;
 
+	/**
+	 * The DocumentType this publisher is publishing
+	 * 
+	 * @return
+	 */
 	public DocumentType GetDocumentType() {
 		return _type;
 	}
 
 	private Formats _format;
 
+	/**
+	 * The Format this publisher is publishing
+	 * 
+	 * @return
+	 */
 	public Formats GetFormat() {
 		return _format;
 	}
@@ -39,6 +55,6 @@ public abstract class PublisherBase {
 		_format = format;
 	}
 
-	public abstract String Publish(String inputFile, String outputFile);
+	public abstract void Publish(String inputFile, String outputFile);
 
 }

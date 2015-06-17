@@ -43,19 +43,16 @@ public class PublishingController {
 
 			@SuppressWarnings("unused")
 			String inputXml = JsonToXmlConverter.ConvertToXml(inputParams);
-			@SuppressWarnings("unused")
 			String inputXmlPath = Paths.get(tempDir.getFileName().toString(),
 					"input.xml").toString();
 
 			// TODO write inputXml to inputXmlPath
 
-			@SuppressWarnings("unused")
 			String outputPath = getOutputPath(tempDir, format);
 
 			EnsureDirctory(tempDir);
 
-			@SuppressWarnings("unused")
-			String publishedDocument = publisher.Publish("", "");
+			publisher.Publish(inputXmlPath, outputPath);
 
 		} catch (Exception ex) {
 			// TODO implement logging
@@ -151,10 +148,11 @@ public class PublishingController {
 		}
 	}
 
-	/*
+	/**
 	 * Throws Exception with message for not yet fully Supported formats
 	 * 
-	 * @param format The format that is not supported
+	 * @param format
+	 *            The format that is not supported
 	 */
 	private static void TrowNotSupportedForFormat(Formats format) {
 		String message = String.format(
