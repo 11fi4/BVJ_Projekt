@@ -4,10 +4,10 @@ import java.nio.file.Path;
 
 import com.impl.report.*;
 
-public class PdfPublisher extends PublisherBase{
+public class PdfPublisher extends PublisherBase {
 
-	public PdfPublisher(Path dir,DocumentType type) {
-		super(dir,type);
+	public PdfPublisher(Path dir, DocumentType type, Formats format) {
+		super(dir, type, format);
 	}
 
 	@Override

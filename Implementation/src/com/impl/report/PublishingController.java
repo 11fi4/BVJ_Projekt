@@ -69,9 +69,10 @@ public class PublishingController {
 	 *            the instance of the publisher
 	 */
 	private static void AddOptionalComponents(PublisherBase publisher) {
-		
+
 		if (publisher instanceof HtmlPublisher) {
-			//TODO: maybe add optional componants like a singleton XsdReader f.ex??
+			// TODO: maybe add optional componants like a singleton XsdReader
+			// f.ex??
 		}
 	}
 
@@ -134,13 +135,13 @@ public class PublishingController {
 		switch (format) {
 
 		case Html:
-			return new HtmlPublisher(tempDir, type);
+			return new HtmlPublisher(tempDir, type, format);
 
 		case Pdf:
-			return new PdfPublisher(tempDir, type);
+			return new PdfPublisher(tempDir, type, format);
 
 		case Word:
-			return new WordPublisher(tempDir, type);
+			return new WordPublisher(tempDir, type, format);
 
 		default:
 			TrowNotSupportedForFormat(format);
