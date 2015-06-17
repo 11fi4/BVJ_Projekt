@@ -1,5 +1,7 @@
 import java.io.*; 
+
 import com.justformspdf.pdf.*;
+
 import java.util.Hashtable;
 import java.util.Enumeration;
 
@@ -7,44 +9,10 @@ import java.util.Enumeration;
 /** Fills out the form of a given PDF and saves it to a new file */
 public class PDFFillForm {
 	public enum FormType {Verweis, Nachsitzen, Mahnung};
+	final String PATH = "T:\\";
 	private final boolean debug = true;
-	
-	/** Params of the Verweis form */
-	private String[] Params_Verweis = new String[]{
-			"eltern_anschrift",
-			"eltern_name",
-			"schueler_name"
-	};
-	
-	/** Params of the Nachsitzen form */
-	private String[] Params_Nachsitzen = new String[]{
-			"eltern_anschrift",
-			"eltern_name",
-			"schueler_name"
-	};
-	
-	/** Params of the Mahnung form */
-	private String[] Params_Mahnung = new String[]{
-			"0",
-			"1",
-			"2",
-			"3",
-			"4",
-			"5",
-			"6",
-			"7",
-			"8",
-			"9",
-			"10",
-			"11",
-			"12",
-			"13",
-			"14",
-			"15"
-	};
-	
-	
-	Hashtable Generate_Mahnung_Table(){
+		
+	Hashtable<Integer, String> Generate_Mahnung_Table(){
 		Boolean gender = true;
 		String brief_datum = "05.04.2014";
 		String possesiv0 = gender? "ihre Tochter" : "ihr Sohn";
@@ -80,64 +48,58 @@ public class PDFFillForm {
 		return ht;
 	}
 	
+	Hashtable<Integer, String> Generate_Verweis_Table(){ 
+		return new Hashtable();
+	}
+	Hashtable<Integer, String> Generate_Nachsitzen_Table(){ 
+		return new Hashtable(); 
+	}
+	
 	/** Testing */
 	public static void main(String[] args){		
-		String INPUT = "T:\\Repo_Vorlage_Mahnung.pdf";
-		String OUTPUT = "T:\\Mahnung_filled.pdf";
-		new PDFFillForm().CreateNewPDF(INPUT, OUTPUT);
-	}
+		new PDFFillForm().CreateNewPDF(FormType.Mahnung);
+	}	
 
 	/** Fills forms of a given PDF and saves it to a new file.
 	 * Note: Input file must be a PDF 1.4 (set Acrobat DC 5.0 Compatibility)! */	
-	public void CreateNewPDF(String input, String output){
+	public void CreateNewPDF(FormType formType){
 		try{
 			if(debug) System.out.println("Trying to fill PDF form");
+
+			// Get Paths
+			String INPUT = GetPath(formType, true);
+			String OUTPUT = GetPath(formType, false);
 			
-			// Open pdf
-			FileInputStream fis = new FileInputStream(input);
+			// Open PDF
+			FileInputStream fis = new FileInputStream(INPUT);
 			PDFReader reader = new PDFReader(fis);
 			PDF pdf = new PDF(reader);
 			pdf.lk("43B78HB6");
 			Form form = pdf.getForm();
 	
 			// Fill PDF form
-			FillForm(form, FormType.Mahnung);
+			FillForm(form, formType);
 			
 			// Render and Save
 			pdf.render();		
-			FileOutputStream fos = new FileOutputStream(output);
+			FileOutputStream fos = new FileOutputStream(OUTPUT);
 			pdf.writeTo(fos);
 			fos.close();
 			fis.close();
 			
-			if(debug) System.out.println("Output: '" + output + "'");	
+			if(debug) System.out.println("Output: '" + OUTPUT + "'");	
 		}
 		catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-
-	/** Gets the parameters for a FormType */
-	private String[] getParams(FormType formtype){
-		switch(formtype){
-		case Verweis:
-			return Params_Verweis;
-		case Mahnung:
-			return Params_Mahnung;
-		case Nachsitzen:
-			return Params_Nachsitzen;
-		} return null;
-	}
 	
 	/** Fills a complete from depending on its FormType */
 	private void FillForm(Form form, FormType formType) throws Exception{
-		String[] params = getParams(formType);
-		
-		
 		if(debug) System.out.println("Type: " + formType);
 
-		Hashtable ht = Generate_Mahnung_Table();
-		Enumeration e = ht.keys();
+		Hashtable<Integer, String> ht = Generate_Mahnung_Table();
+		Enumeration<Integer> e = ht.keys();
 		while(e.hasMoreElements()){
 			int key = (int)e.nextElement();
 			FillFormField(form, ""+key, ht.get(key).toString());
@@ -151,8 +113,22 @@ public class PDFFillForm {
 			if(debug) System.out.println("-> SUCCESS: set " + field + " to '" + value + "'");
 		}catch(Exception e){
 			if(debug) System.out.println("-> FAIL: set " + field + " to '" + value + "'");
-			//e.printStackTrace();
 		}	
+	}
+	
+	/** Returns the input (in:true) or output (in:false) path of a formType */
+	private String GetPath(FormType formType, boolean in){
+		switch(formType){
+		case Verweis:
+			if(in) return PATH + "Repo_Vorlage_Verweis.pdf";
+			else return PATH + "Repo_Vorlage_Verweis_filled.pdf";
+		case Nachsitzen:
+			if(in) return PATH + "Repo_Vorlage_Nachsitzen.pdf";
+			else return PATH + "Repo_Vorlage_Nachsitzen_filled.pdf";
+		case Mahnung:
+			if(in) return PATH + "Repo_Vorlage_Mahnung.pdf";
+			else return PATH + "Repo_Vorlage_Mahnung_filled.pdf";
+		} return null;
 	}
 	
 }
