@@ -1,7 +1,6 @@
 package com.impl.report;
 
 import java.util.*;
-import java.io.*;
 import java.nio.file.*;
 
 //report.publisher
@@ -54,9 +53,9 @@ public class PublishingController {
 
 			// TODO write inputXml to inputXmlPath
 
-			String outputPath = getOutputPath(tempDir, format);
+			String outputPath = IoHelper.getOutputPath(tempDir, format);
 
-			EnsureDirctory(tempDir);
+			IoHelper.EnsureDirctory(tempDir);
 
 			publisher.Publish(inputXmlPath, outputPath);
 
@@ -81,58 +80,9 @@ public class PublishingController {
 		}
 
 		// if (publisher instanceof HtmlPublisher) {
-		// TODO: maybe add optional componants like a singleton XsdReader
+		// maybe add optional componants like a singleton XsdReader
 		// f.ex??
 		// }
-	}
-
-	/**
-	 * Ensures that the given Directory exists
-	 * 
-	 * @param tempDir
-	 *            the directory to ensure
-	 * @throws IOException
-	 *             is thrown f.ex. in case of failure while creating the new
-	 *             directory
-	 */
-	private static void EnsureDirctory(Path tempDir) throws IOException {
-		if (!Files.exists(tempDir, LinkOption.NOFOLLOW_LINKS)) {
-			Files.createDirectory(tempDir);
-		}
-	}
-
-	/**
-	 * Creates a new FilePath with a randomly generated Guid and the right
-	 * extension for a format
-	 * 
-	 * @param tempDir
-	 *            the directory for the file
-	 * @param format
-	 *            the format
-	 * @return Returns a string that represents the calculated path.
-	 */
-	private static String getOutputPath(Path tempDir, Formats format) {
-		String extension = null;
-
-		switch (format) {
-		case Html:
-		case Pdf:
-			extension = "." + format.toString();
-			break;
-
-		case Word:
-			extension = "." + ".docx";
-			break;
-
-		default:
-			TrowNotSupportedForFormat(format);
-		}
-
-		UUID ran = UUID.randomUUID();
-
-		Path newPath = Paths.get(tempDir.getFileName().toString(),
-				ran.toString(), extension);
-		return newPath.getFileName().toString();
 	}
 
 	/**
@@ -192,7 +142,7 @@ public class PublishingController {
 	 * @param format
 	 *            The format that is not supported
 	 */
-	private static void TrowNotSupportedForFormat(Formats format) {
+	public static void TrowNotSupportedForFormat(Formats format) {
 		String message = String.format(
 				"No publisher has been fully implemented for Format '{0}'.",
 				format.toString());

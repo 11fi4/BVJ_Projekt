@@ -8,12 +8,7 @@ import java.net.URISyntaxException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-import javax.xml.XMLConstants;
 import javax.xml.parsers.*;
-import javax.xml.transform.stream.StreamSource;
-import javax.xml.validation.Schema;
-import javax.xml.validation.SchemaFactory;
-import javax.xml.validation.Validator;
 
 import org.xml.sax.*;
 import org.w3c.dom.*;
@@ -54,7 +49,7 @@ public class Configuration {
 		File configFile = new File("/cfg/report.cfg.xml");
 		File schemaFile = new File("/cfg/report.cfg.xml.xsd");
 
-		if (ValidateDocument(configFile, schemaFile)) {
+		if (XmlHelper.ValidateDocument(configFile, schemaFile)) {
 
 			DocumentBuilderFactory factory = DocumentBuilderFactory
 					.newInstance();
@@ -115,27 +110,4 @@ public class Configuration {
 		// TODO implement
 		return null;
 	}
-
-	/**
-	 * Validates a xml-file against a given xsd-schema
-	 * 
-	 * @param xmlFile
-	 * @param xsdFile
-	 * @return returns true if validation succeeded, throws exception if not
-	 */
-	private static boolean ValidateDocument(File xmlFile, File xsdFile) {
-
-		try {
-			SchemaFactory factory = SchemaFactory
-					.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
-			Schema schema = factory.newSchema(new StreamSource(xsdFile));
-			Validator validator = schema.newValidator();
-			validator.validate(new StreamSource(xmlFile));
-			return true;
-		} catch (Exception ex) {
-			// TODO log exception;
-			return false;
-		}
-	}
-
 }
