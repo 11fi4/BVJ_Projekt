@@ -9,6 +9,12 @@ import com.impl.report.html.HtmlPublisher;
 import com.impl.report.pdf.PdfPublisher;
 import com.impl.report.word.WordPublisher;
 
+/**
+ * This is the controller for all publications
+ * 
+ * @author Johannes
+ *
+ */
 public class PublishingController {
 
 	/**
@@ -67,18 +73,44 @@ public class PublishingController {
 	 */
 	private static void AddOptionalComponents(PublisherBase publisher) {
 
-		if (publisher instanceof HtmlPublisher) {
-			// TODO: maybe add optional componants like a singleton XsdReader
-			// f.ex??
+		// check if settings are configured and add them to the publisher
+		FormatSettings sets = Configuration.GetSettingsForFormat(publisher
+				.GetFormat());
+		if (sets != null) {
+			publisher.SetSettings(sets);
 		}
+
+		// if (publisher instanceof HtmlPublisher) {
+		// TODO: maybe add optional componants like a singleton XsdReader
+		// f.ex??
+		// }
 	}
 
+	/**
+	 * Ensures that the given Directory exists
+	 * 
+	 * @param tempDir
+	 *            the directory to ensure
+	 * @throws IOException
+	 *             is thrown f.ex. in case of failure while creating the new
+	 *             directory
+	 */
 	private static void EnsureDirctory(Path tempDir) throws IOException {
 		if (!Files.exists(tempDir, LinkOption.NOFOLLOW_LINKS)) {
 			Files.createDirectory(tempDir);
 		}
 	}
 
+	/**
+	 * Creates a new FilePath with a randomly generated Guid and the right
+	 * extension for a format
+	 * 
+	 * @param tempDir
+	 *            the directory for the file
+	 * @param format
+	 *            the format
+	 * @return Returns a string that represents the calculated path.
+	 */
 	private static String getOutputPath(Path tempDir, Formats format) {
 		String extension = null;
 
@@ -103,6 +135,12 @@ public class PublishingController {
 		return newPath.getFileName().toString();
 	}
 
+	/**
+	 * Calculates a new tempDir under the configured TempDirectory. The
+	 * Subdirectory is the configured directory plus randmomly generated Guid
+	 * 
+	 * @return A path object with the absolutePath to the calculated directory
+	 */
 	private static Path getTempDirectory() {
 		UUID id = UUID.randomUUID();
 
@@ -132,13 +170,13 @@ public class PublishingController {
 		switch (format) {
 
 		case Html:
-			return new HtmlPublisher(tempDir, type, format);
+			return new HtmlPublisher(tempDir, type);
 
 		case Pdf:
-			return new PdfPublisher(tempDir, type, format);
+			return new PdfPublisher(tempDir, type);
 
 		case Word:
-			return new WordPublisher(tempDir, type, format);
+			return new WordPublisher(tempDir, type);
 
 		default:
 			TrowNotSupportedForFormat(format);

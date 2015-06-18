@@ -6,8 +6,8 @@ import com.impl.report.*;
 
 public class HtmlPublisher extends PublisherBase {
 
-	public HtmlPublisher(Path dir, DocumentType type, Formats format) {
-		super(dir, type, format);
+	public HtmlPublisher(Path dir, DocumentType type) {
+		super(dir, type, Formats.Html);
 	}
 
 	@Override

@@ -43,6 +43,16 @@ public abstract class PublisherBase {
 		return _format;
 	}
 
+	private FormatSettings _sets;
+
+	public FormatSettings GetSettings() {
+		return _sets;
+	}
+
+	public void SetSettings(FormatSettings sets) {
+		_sets = sets;
+	}
+
 	/**
 	 * Creates a new instance
 	 * 
