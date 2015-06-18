@@ -15,4 +15,7 @@ public class ResponseInt extends ResponseBase {
 	public int getValue(){
 		return value;
 	}
+	public void setValue(int _value){
+		value = _value;
+	}
 }
