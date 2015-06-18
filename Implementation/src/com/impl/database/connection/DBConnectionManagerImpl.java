@@ -24,7 +24,7 @@ public class DBConnectionManagerImpl implements DBConnectionManager {
 			.getLogger(DBConnectionManagerImpl.class);
 
 	public DBConnectionManagerImpl() {
-		getSession();
+		getSessionFactory();
 	}
 
 	/*
@@ -117,7 +117,8 @@ public class DBConnectionManagerImpl implements DBConnectionManager {
 	}
 
 	@SuppressWarnings("deprecation")
-	public void getSession() {
+	@Override
+	public SessionFactory getSessionFactory() {
 		try {
 			factory = new AnnotationConfiguration().configure()
 					.buildSessionFactory();
@@ -125,5 +126,7 @@ public class DBConnectionManagerImpl implements DBConnectionManager {
 			logger.error("Unexpected connection error" + ex.getCause());
 			ex.printStackTrace();
 		}
+		return factory;
 	}
+
 }

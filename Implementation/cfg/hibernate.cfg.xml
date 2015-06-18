@@ -3,23 +3,29 @@
         "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
 
 <hibernate-configuration>
-    <session-factory>
-        <property name="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</property>
-        <property name="hibernate.connection.driver_class">org.postgresql.Driver</property>
-        <property name="hibernate.connection.username">postgres</property>
-        <property name="hibernate.connection.password">11fi4</property>
-        <property name="hibernate.connection.url">jdbc:postgresql://localhost:5432/postgres</property>
+	<session-factory>
+		<property name="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</property>
+		<property name="hibernate.connection.driver_class">org.postgresql.Driver</property>
+		<property name="hibernate.connection.username">postgres</property>
+		<property name="hibernate.connection.password">11fi4</property>
+		<property name="hibernate.connection.url">jdbc:postgresql://localhost:5432/postgres</property>
 
 
-        <property name="connection_pool_size">1</property>
-        <property name="hbm2ddl.auto">create</property>
-        <property name="show_sql">true</property>
+		<property name="connection_pool_size">5</property>
+		<property name="hbm2ddl.auto">update</property>
+		<property name="show_sql">true</property>
+
+		<property name="hibernate.c3p0.min_size">5</property>
+		
+		<property name="hibernate.c3p0.max_size">20</property>
+		<property name="hibernate.c3p0.timeout">300</property>
+		<property name="hibernate.c3p0.max_statements">50</property>
+		<property name="hibernate.c3p0.idle_test_period">3000</property>
 
 
+		<!-- Mapping classes -->
+		<mapping class="com.impl.database.elements.Parent" />
+		<mapping class="com.impl.database.elements.Student" />
 
-     <!-- Mapping classes -->
-   <mapping class="com.impl.database.elements.Parent"/>
-   <mapping class="com.impl.database.elements.Student"/>
-
-    </session-factory>
+	</session-factory>
 </hibernate-configuration>
