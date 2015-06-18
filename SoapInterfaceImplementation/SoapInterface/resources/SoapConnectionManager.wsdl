@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions targetNamespace="http://soapinterface.impl.com" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:ns="http://soapinterface.impl.com" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:ax21="http://soapinterface.impl.com/xsd" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns1="http://org.apache.axis2/xsd" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+<wsdl:documentation>
+		Test Rev1
+	</wsdl:documentation>
+  <wsdl:types>
+    <xs:schema attributeFormDefault="qualified" elementFormDefault="qualified" targetNamespace="http://soapinterface.impl.com/xsd">
+            <xs:complexType name="ResponseBase">
+                <xs:sequence>
+                    <xs:element minOccurs="0" name="errorCode" nillable="true" type="xs:int"/>
+                    <xs:element minOccurs="0" name="errorMessage" nillable="true" type="xs:string"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="ResponseInt">
+                <xs:complexContent>
+                    <xs:extension base="ax21:ResponseBase">
+                        <xs:sequence>
+                            <xs:element minOccurs="0" name="value" nillable="true" type="xs:int"/>
+                        </xs:sequence>
+                    </xs:extension>
+                </xs:complexContent>
+            </xs:complexType>
+        </xs:schema>
+    <xs:schema attributeFormDefault="qualified" elementFormDefault="qualified" targetNamespace="http://soapinterface.impl.com" xmlns:ax22="http://soapinterface.impl.com/xsd">
+            <xs:import namespace="http://soapinterface.impl.com/xsd"/>
+            <xs:element name="authenticateUser">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="0" name="username" nillable="true" type="xs:string"/>
+                        <xs:element minOccurs="0" name="password" nillable="true" type="xs:string"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="authenticateUserResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="0" name="return" nillable="true" type="xs:string"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="returnInputInt">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="0" name="inputInt" type="xs:int"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="returnInputIntResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="0" name="return" type="xs:int"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="return5">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="0" name="authMD5" nillable="true" type="xs:string"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="return5Response">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="0" name="return" nillable="true" type="ax22:ResponseInt"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+        </xs:schema>
+  </wsdl:types>
+  <wsdl:message name="return5Response">
+    <wsdl:part name="parameters" element="ns:return5Response">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="returnInputIntRequest">
+    <wsdl:part name="parameters" element="ns:returnInputInt">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="authenticateUserResponse">
+    <wsdl:part name="parameters" element="ns:authenticateUserResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="returnInputIntResponse">
+    <wsdl:part name="parameters" element="ns:returnInputIntResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="authenticateUserRequest">
+    <wsdl:part name="parameters" element="ns:authenticateUser">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="return5Request">
+    <wsdl:part name="parameters" element="ns:return5">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="SoapConnectionManagerPortType">
+    <wsdl:operation name="return5">
+      <wsdl:input message="ns:return5Request" wsaw:Action="urn:return5">
+    </wsdl:input>
+      <wsdl:output message="ns:return5Response" wsaw:Action="urn:return5Response">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="returnInputInt">
+      <wsdl:input message="ns:returnInputIntRequest" wsaw:Action="urn:returnInputInt">
+    </wsdl:input>
+      <wsdl:output message="ns:returnInputIntResponse" wsaw:Action="urn:returnInputIntResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="authenticateUser">
+      <wsdl:input message="ns:authenticateUserRequest" wsaw:Action="urn:authenticateUser">
+    </wsdl:input>
+      <wsdl:output message="ns:authenticateUserResponse" wsaw:Action="urn:authenticateUserResponse">
+    </wsdl:output>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="SoapConnectionManagerHttpBinding" type="ns:SoapConnectionManagerPortType">
+    <http:binding verb="POST"/>
+    <wsdl:operation name="return5">
+      <http:operation location="return5"/>
+      <wsdl:input>
+        <mime:content part="parameters" type="application/xml"/>
+      </wsdl:input>
+      <wsdl:output>
+        <mime:content part="parameters" type="application/xml"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="returnInputInt">
+      <http:operation location="returnInputInt"/>
+      <wsdl:input>
+        <mime:content part="parameters" type="application/xml"/>
+      </wsdl:input>
+      <wsdl:output>
+        <mime:content part="parameters" type="application/xml"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="authenticateUser">
+      <http:operation location="authenticateUser"/>
+      <wsdl:input>
+        <mime:content part="parameters" type="application/xml"/>
+      </wsdl:input>
+      <wsdl:output>
+        <mime:content part="parameters" type="application/xml"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="SoapConnectionManagerSoap12Binding" type="ns:SoapConnectionManagerPortType">
+    <soap12:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="return5">
+      <soap12:operation soapAction="urn:return5" style="document"/>
+      <wsdl:input>
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="returnInputInt">
+      <soap12:operation soapAction="urn:returnInputInt" style="document"/>
+      <wsdl:input>
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="authenticateUser">
+      <soap12:operation soapAction="urn:authenticateUser" style="document"/>
+      <wsdl:input>
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="SoapConnectionManagerSoap11Binding" type="ns:SoapConnectionManagerPortType">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="return5">
+      <soap:operation soapAction="urn:return5" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="returnInputInt">
+      <soap:operation soapAction="urn:returnInputInt" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="authenticateUser">
+      <soap:operation soapAction="urn:authenticateUser" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="SoapConnectionManager">
+    <wsdl:port name="SoapConnectionManagerHttpEndpoint" binding="ns:SoapConnectionManagerHttpBinding">
+      <http:address location="http://10.161.8.20:8080/SoapInterface/services/SoapConnectionManager.SoapConnectionManagerHttpEndpoint/"/>
+    </wsdl:port>
+    <wsdl:port name="SoapConnectionManagerHttpSoap12Endpoint" binding="ns:SoapConnectionManagerSoap12Binding">
+      <soap12:address location="http://10.161.8.20:8080/SoapInterface/services/SoapConnectionManager.SoapConnectionManagerHttpSoap12Endpoint/"/>
+    </wsdl:port>
+    <wsdl:port name="SoapConnectionManagerHttpSoap11Endpoint" binding="ns:SoapConnectionManagerSoap11Binding">
+      <soap:address location="http://10.161.8.20:8080/SoapInterface/services/SoapConnectionManager.SoapConnectionManagerHttpSoap11Endpoint/"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

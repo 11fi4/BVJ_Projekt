@@ -11,4 +11,8 @@ public class ResponseInt extends ResponseBase {
 	}
 	
 	public int value = Integer.MIN_VALUE;
+	
+	public int getValue(){
+		return value;
+	}
 }

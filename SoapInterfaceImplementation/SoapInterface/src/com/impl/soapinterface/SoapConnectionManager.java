@@ -4,32 +4,31 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.HashSet;
 
-public class SoapConnectionManager {
+import com.impl.soapinterface.ResponseBase.ERROR_CODES;
 
-	private static HashSet<String> userAuthList;
+public class SoapConnectionManager {
+	
+	private static UserAuthentification userAuth;
+	
+	static boolean isInitialized = false;
 	
 	public SoapConnectionManager(){
-		if(userAuthList == null)
-		userAuthList = new HashSet<String>();
+		if(!isInitialized)
+		{
+			userAuth = new UserAuthentification();
+			isInitialized = true;
+		}
 	}
 	
 	public ResponseInt return5(String authMD5) {
-		
-		Object[] debugS = userAuthList.toArray();
-		
-		for(int i = 0; i < userAuthList.size(); i++){
-			System.out.println("#"+i+": "+debugS[i].toString());
-		}
-		
-		if(checkIfAuthenticated(authMD5)){
+		if(userAuth.checkIfAuthenticated(authMD5)){
 			System.out.println("Auth Check true for md5: "+authMD5);
 			return new ResponseInt(5);
 		}
 		else{
 			System.out.println("Auth Check false for md5: "+authMD5);
 			ResponseInt resp = new ResponseInt();
-			resp.errorCode = 1;
-			resp.errorMessage = "Not Authed";
+			resp.setErrorCode(ERROR_CODES.UserNotLoggedIn);
 			return resp;
 		}
 	}
@@ -39,54 +38,30 @@ public class SoapConnectionManager {
 	 * 
 	 * }
 	 */
-	
-	protected boolean checkIfAuthenticated(String md5){
-		 if(userAuthList.contains(md5)) return true;
 
-		 return false;
-	}
-
-	public String authenticateUser(String username, String password) {
-		
-		System.out.println("User: "+username);
+	public ResponseLogin logIn(String username, String password) {
 		String md5 = "";
-		//If user is valid in DB
-		if(true){
-			md5 = getMD5(password+username);
-			System.out.println(md5+" for user / pass: "+username+", "+password);
-			
-			if(!userAuthList.contains(md5)){
-				userAuthList.add(md5);
-			}
-			else
-			{
-				//TODO: WHAT TO DO IF ALREADY AUTHED
-			}
-			
-		}
+		ResponseLogin resp;
 		
-		return md5;
-	}
-	
-	private static String getMD5(String inputString){
-		try{
-			MessageDigest digest = MessageDigest.getInstance("MD5");
-			byte[] md = digest.digest(inputString.getBytes());
-			BigInteger number = new BigInteger(1,md);
-			String hashText = number.toString(16);
+		System.out.println("Login Attempt, user / pass: "+username+", "+password);
+		
+		if(username.equals("Hallo") && password.equals("Welt") /*TODO: Check if User is valid in DB*/){
+			md5 = Utilities.getMD5(password+username);
 			
-			while (hashText.length() < 32){
-				hashText = "0" + hashText;
+			if(userAuth.authenticateUser(md5)){
+				System.out.println("Login Successfull, user / pass / md5: "+username+", "+password+", "+md5);
+				resp = new ResponseLogin(md5,username);
+			}else{
+				System.out.println("User already logged in, for user: "+username);
+				resp = new ResponseLogin();
+				resp.setErrorCode(ERROR_CODES.UserAlreadyLoggedIn);
 			}
-			
-			return hashText;
-		} catch (NoSuchAlgorithmException e) {
-			return "";
 		}
-	}
-	
-	public int returnInputInt(Integer inputInt)
-	{
-		return inputInt;
+		else{
+			//TODO Return ResponseString with error code
+			resp = new ResponseLogin();
+			resp.setErrorCode(ERROR_CODES.UserNotInDB);
+		}
+		return resp;
 	}
 }
