@@ -1,8 +1,6 @@
-import java.util.Hashtable;
+import java.io.FileOutputStream;
 import java.util.Enumeration;
-import java.io.*; 
-
-import java.util.ArrayList;
+import java.util.Hashtable;
 import java.util.List;
 
 import org.apache.poi.openxml4j.opc.OPCPackage;
@@ -47,24 +45,24 @@ public class PDFFillForm {
 		
 		Hashtable<String, String> ht = new Hashtable<String, String>(); 
 	
-		ht.put("Text1", anschrift); //0
-		ht.put("Text2", brief_datum);
-		ht.put("Text3", anrede);
-		ht.put("Text4", possesiv1 + " " + name_schueler);
-		ht.put("Text5", possesiv1);
-		ht.put("Text6", fehltage_seit);
-		ht.put("Text7", fehltage_gesamt);
-		ht.put("Text8", fehltage_unentschuldigt);
-		ht.put("Text9", possesiv1);
-		ht.put("Text10", possesiv0);
-		ht.put("Text11", attestpflicht_ab);
-		ht.put("Text12", possesiv1);
-		ht.put("Text13", attestpflicht_ab);
-		ht.put("Text14", brief_datum);
-		ht.put("Text15", possesiv2 + " " + name_schueler);
-		ht.put("Text16", fehltage_seit);
-		ht.put("Text17", attestpflicht_ab);
-		ht.put("Text18", possesiv0);
+		ht.put("text01", anschrift); //0
+		ht.put("text02", brief_datum);
+		ht.put("text03", anrede);
+		ht.put("text04", possesiv1 + " " + name_schueler);
+		ht.put("text05", possesiv1);
+		ht.put("text06", fehltage_seit);
+		ht.put("text07", fehltage_gesamt);
+		ht.put("text08", fehltage_unentschuldigt);
+		ht.put("text09", possesiv1);
+		ht.put("text10", possesiv0);
+		ht.put("text11", attestpflicht_ab);
+		ht.put("text12", possesiv1);
+		ht.put("text13", attestpflicht_ab);
+		ht.put("text14", brief_datum);
+		ht.put("text15", possesiv2 + " " + name_schueler);
+		ht.put("text16", fehltage_seit);
+		ht.put("text17", attestpflicht_ab);
+		ht.put("text18", possesiv0);
 		
 		return ht;
 	}
@@ -162,7 +160,11 @@ public class PDFFillForm {
 				FillFormField(doc, key, elementHT.get(key).toString());
 			}
 
-			doc.write(new FileOutputStream(OUTPUT));
+			FileOutputStream fileout = new FileOutputStream(OUTPUT);
+			
+			doc.write(fileout);
+			fileout.flush();
+			fileout.close();
 			
 			if(debug) System.out.println("Output: '" + OUTPUT + "'");
 		}
