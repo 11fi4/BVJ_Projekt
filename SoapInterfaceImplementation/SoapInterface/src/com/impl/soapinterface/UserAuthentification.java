@@ -10,9 +10,9 @@ import com.impl.soapinterface.ResponseBase.ERROR_CODES;
 
 public class UserAuthentification {
 
-	//In milliseconds
+	// In milliseconds
 	private static final long sessionTimeout = 10 * 60 * 1000;
-	
+
 	private class UserAuthentificationInformation {
 		public UserAuthentificationInformation(String _username,
 				long _loginTimestamp) {
@@ -38,7 +38,7 @@ public class UserAuthentification {
 		// Init session timeouts
 		SessionTimer sessionTimeoutThread = new SessionTimer();
 		sessionTimeoutThread.start();
-		
+
 	}
 
 	public boolean checkIfAuthenticated(String md5) {
@@ -59,7 +59,7 @@ public class UserAuthentification {
 			respBase.setErrorCode(ERROR_CODES.UserNotLoggedIn);
 		} else {
 			resetSessionTimeout(userAuthList.get(authMD5));
-			
+
 			if (!checkIfCallIsAllowed(authMD5, 0)) {
 				respBase.setErrorCode(ERROR_CODES.UserLacksPermission);
 			} else {
@@ -68,39 +68,41 @@ public class UserAuthentification {
 		}
 		return false;
 	}
-	
-	private void resetSessionTimeout(UserAuthentificationInformation authInfo){
-		authInfo.loginTimestamp = new Date().getTime();
-		System.out.println("Resetting timeout for user: "+authInfo.username);
-	}
-	
-	private String getMD5forUsername(String username){
-		String keyForUser = "";
-		for (Map.Entry<String, UserAuthentificationInformation> entry : userAuthList.entrySet()) {
-		    String key = entry.getKey();
-		    UserAuthentificationInformation authInfo = entry.getValue();
 
-		    if(authInfo.username.equals(username)){
-		    	keyForUser = key;
-		    	break;
-		    }
+	private void resetSessionTimeout(UserAuthentificationInformation authInfo) {
+		authInfo.loginTimestamp = new Date().getTime();
+		System.out.println("Resetting timeout for user: " + authInfo.username);
+	}
+
+	private String getMD5forUsername(String username) {
+		String keyForUser = "";
+		for (Map.Entry<String, UserAuthentificationInformation> entry : userAuthList
+				.entrySet()) {
+			String key = entry.getKey();
+			UserAuthentificationInformation authInfo = entry.getValue();
+
+			if (authInfo.username.equals(username)) {
+				keyForUser = key;
+				break;
+			}
 		}
 		return keyForUser;
 	}
 
-	private void debugCurrentlyLoggedinUsers(){
-		System.out.println("Currently Logged In user count: "+userAuthList.size());
+	private void debugCurrentlyLoggedinUsers() {
+		System.out.println("Currently Logged In user count: "
+				+ userAuthList.size());
 		for (int i = 0; i < userAuthList.size(); i++) {
 			System.out.println("#" + i + ": "
 					+ userAuthList.keySet().toArray()[i].toString());
 		}
 	}
-	
+
 	public boolean authenticateUser(String username, String md5) {
-		//Get if the user is already logged in. 
-		//If the username is not fround, the return string will be "";
+		// Get if the user is already logged in.
+		// If the username is not fround, the return string will be "";
 		String md5ForLoggedinUsername = getMD5forUsername(username);
-		
+
 		if (md5ForLoggedinUsername.equals("")) {
 			UserAuthentificationInformation userAuthInf = new UserAuthentificationInformation(
 					username, new Date().getTime());
@@ -112,14 +114,21 @@ public class UserAuthentification {
 			return true;
 		} else {
 			// User is already authenticated
-			
-			//Check the Map for username
+
+			// Check the Map for username
 			userAuthList.remove(md5ForLoggedinUsername);
 
-			System.out.println("User already logged in, kicking out for new session: "+ md5);
+			System.out
+					.println("User already logged in, kicking out for new session: "
+							+ md5);
 
 			for (int i = 0; i < userAuthList.size(); i++) {
-				System.out.println("#" + i + ": " + ((UserAuthentificationInformation)userAuthList.values().toArray()[i]).username);
+				System.out.println(
+						"#"
+						+ i
+						+ ": "
+						+ ((UserAuthentificationInformation) userAuthList
+								.values().toArray()[i]).username);
 			}
 
 			return authenticateUser(username, md5);
@@ -128,32 +137,35 @@ public class UserAuthentification {
 
 	public boolean logOutUser(String md5) {
 		if (userAuthList.containsKey(md5)) {
-			
-			System.out.println("Logging out user: "+ md5+", name: "+userAuthList.get(md5).username);
+
+			System.out.println("Logging out user: " + md5 + ", name: "
+					+ userAuthList.get(md5).username);
 			userAuthList.remove(md5);
-			
+
 			debugCurrentlyLoggedinUsers();
-			
+
 			return true;
 		}
 		return false;
 	}
 
 	private void checkActiveSessionsForTimeout() {
-		
-		System.out.println("Checking for Session Timeouts");
-		
-		for (Map.Entry<String, UserAuthentificationInformation> entry : userAuthList.entrySet()) {
-		    String key = entry.getKey();
-		    UserAuthentificationInformation authInfo = entry.getValue();
 
-		    if(new Date().getTime() > authInfo.loginTimestamp + sessionTimeout){
-		    	//Log timeout
-		    	System.out.println("Session for user: "+authInfo.username+" expired. Logging out");
-		    	logOutUser(key);
-		    	
-		    	break;
-		    }
+		System.out.println("Checking for Session Timeouts");
+
+		for (Map.Entry<String, UserAuthentificationInformation> entry : userAuthList
+				.entrySet()) {
+			String key = entry.getKey();
+			UserAuthentificationInformation authInfo = entry.getValue();
+
+			if (new Date().getTime() > authInfo.loginTimestamp + sessionTimeout) {
+				// Log timeout
+				System.out.println("Session for user: " + authInfo.username
+						+ " expired. Logging out");
+				logOutUser(key);
+
+				break;
+			}
 		}
 	}
 
@@ -164,12 +176,10 @@ public class UserAuthentification {
 
 		public void run() {
 			while (true) {
-
 				// Wait for one minute
 				try {
 					sleep(60000);
 				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 
