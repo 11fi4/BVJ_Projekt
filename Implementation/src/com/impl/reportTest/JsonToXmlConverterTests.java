@@ -2,7 +2,6 @@ package com.impl.reportTest;
 
 import com.impl.report.JsonToXmlConverter;
 
-import junit.framework.Assert;
 import static org.junit.Assert.*;
 import org.junit.Test;
 
@@ -16,8 +15,7 @@ public class JsonToXmlConverterTests {
 
 		String expected = CompareXml();
 
-		// TODO replace with a class that is not deprecated;
-		Assert.assertEquals(expected, result);
+		assertEquals("strings are not equal", expected, result);
 	}
 
 	private String CompareXml() {
