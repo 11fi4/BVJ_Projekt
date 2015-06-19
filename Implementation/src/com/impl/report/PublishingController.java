@@ -46,12 +46,11 @@ public class PublishingController {
 				tempDir = getTempDirectory();
 			}
 
-			@SuppressWarnings("unused")
 			String inputXml = JsonToXmlConverter.ConvertToXml(inputParams);
 			String inputXmlPath = Paths.get(tempDir.getFileName().toString(),
 					"input.xml").toString();
 
-			// TODO write inputXml to inputXmlPath
+			XmlHelper.WriteXmlToFile(inputXml, inputXmlPath);
 
 			String outputPath = IoHelper.getOutputPath(tempDir, format);
 

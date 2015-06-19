@@ -1,6 +1,9 @@
 package com.impl.report;
 
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 
 import javax.xml.XMLConstants;
 import javax.xml.transform.stream.StreamSource;
@@ -22,8 +25,12 @@ public class XmlHelper {
 	 * @param xmlFile
 	 * @param xsdFile
 	 * @return returns true if validation succeeded, throws exception if not
+	 * @throws Exception
+	 *             Exception is thrown if file is not valid or file can't be
+	 *             Accessed
 	 */
-	public static boolean ValidateDocument(File xmlFile, File xsdFile) {
+	public static boolean ValidateDocument(File xmlFile, File xsdFile)
+			throws Exception {
 
 		try {
 			SchemaFactory factory = SchemaFactory
@@ -33,9 +40,32 @@ public class XmlHelper {
 			validator.validate(new StreamSource(xmlFile));
 			return true;
 		} catch (Exception ex) {
-			// TODO log exception;
-			return false;
+			throw ex;
 		}
+	}
+
+	/**
+	 * Writes a Xml as a File onto HDD
+	 * 
+	 * @param xml
+	 *            The Xml-String
+	 * @param path
+	 *            The path of the xml-file to write
+	 * @throws IOException
+	 *             Is thrown when writing failed (f.ex insufficent privilges)
+	 */
+	public static void WriteXmlToFile(String xml, String path)
+			throws IOException {
+
+		BufferedWriter out = new BufferedWriter(new FileWriter(path));
+
+		// dispose buffer
+		try {
+			out.write(xml);
+		} finally {
+			out.close();
+		}
+
 	}
 
 }

@@ -1,16 +1,13 @@
 package com.impl.report;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.*;
 import java.net.URI;
-import java.net.URISyntaxException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
 import javax.xml.parsers.*;
 
-import org.xml.sax.*;
 import org.w3c.dom.*;
 
 public class Configuration {
@@ -44,8 +41,10 @@ public class Configuration {
 
 	/**
 	 * Initializes the ConfigurationClass and loads its configuration
+	 * 
+	 * @throws Exception
 	 */
-	public static void Initialise() {
+	public static void Initialise() throws Exception {
 		File configFile = new File("/cfg/report.cfg.xml");
 		File schemaFile = new File("/cfg/report.cfg.xml.xsd");
 
@@ -58,31 +57,24 @@ public class Configuration {
 			try {
 				builder = factory.newDocumentBuilder();
 			} catch (ParserConfigurationException e) {
-				// TODO Auto-generated catch block
-				// e.printStackTrace();
+				throw e;
 			}
 
 			Document doc = null;
 
 			try {
 				doc = builder.parse(configFile);
-			} catch (SAXException e) {
-				// TODO Auto-generated catch block
-				// e.printStackTrace();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				// e.printStackTrace();
+			} catch (Exception ex) {
+				throw ex;
 			}
 
-			// TODO get this with XPAth
 			NodeList tempNodeList = doc.getElementsByTagName("TempDir");
 			if (tempNodeList.getLength() == 1) {
 				String tmpVal = tempNodeList.item(0).getNodeValue();
 				try {
 					_tempDir = Paths.get(new URI(tmpVal));
-				} catch (URISyntaxException e) {
-					// TODO Auto-generated catch block
-					// e.printStackTrace();
+				} catch (Exception e) {
+					throw e;
 				}
 			}
 
