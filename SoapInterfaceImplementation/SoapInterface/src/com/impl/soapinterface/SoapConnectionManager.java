@@ -1,11 +1,5 @@
 package com.impl.soapinterface;
-import java.math.BigInteger;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.Date;
-import java.util.HashSet;
-
-import org.apache.tomcat.jni.Time;
 
 import com.impl.soapinterface.ResponseBase.ERROR_CODES;
 
@@ -65,11 +59,11 @@ public class SoapConnectionManager {
 				resp = new ResponseLogin();
 				resp.setErrorCode(ERROR_CODES.UserAlreadyLoggedIn);
 			}
-		}
-		else{
+		}else{
 			//User is not present in DB
 			resp = new ResponseLogin();
 			resp.setErrorCode(ERROR_CODES.UserNotInDB);
+			System.out.println("Error: User not in DB, username: "+username);
 		}
 		return resp;
 	}
