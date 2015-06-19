@@ -7,13 +7,11 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.logging.Logger;
 
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Restrictions;
-import org.hibernate.hql.internal.ast.tree.RestrictableStatement;
 
 import com.impl.database.connection.DBConnectionManager;
 import com.impl.database.connection.DBConnectionManagerImpl;
@@ -26,6 +24,7 @@ import com.impl.database.elements.Student;
  */
 public class TestApplication extends DBConnectionManagerImpl {
 
+	@SuppressWarnings({ "deprecation", "rawtypes" })
 	public static void main(String args[]) {
 		Set<Parent> parents = new HashSet<Parent>();
 		DBConnectionManager connectionManager = new DBConnectionManagerImpl();
@@ -118,15 +117,16 @@ public class TestApplication extends DBConnectionManagerImpl {
 
 		// create citeria to get student steinam33
 		Session session = connectionManager.getSessionFactory().openSession();
-				
+
+		@SuppressWarnings("unused")
 		Transaction tx = session.beginTransaction();
-		
+
 		Criteria criteria = session.createCriteria(Student.class).add(
 				Restrictions.eq("name", "Steinam_33"));
 		criteria.setMaxResults(10);
 		List list = criteria.list();
 		Student studentGet = (Student) list.iterator().next();
-System.out.println(studentGet.getName());
+		System.out.println(studentGet.getName());
 		// Exit
 		Thread.currentThread().interrupt();
 	}
