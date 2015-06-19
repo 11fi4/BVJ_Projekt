@@ -1,3 +1,4 @@
+package com.impl.reporting;
 import java.io.FileOutputStream;
 import java.util.Enumeration;
 import java.util.Hashtable;
@@ -12,7 +13,7 @@ import org.apache.poi.xwpf.usermodel.XWPFTableCell;
 import org.apache.poi.xwpf.usermodel.XWPFTableRow;
 
 /** Fills out the form of a given PDF and saves it to a new file */
-public class PDFFillForm {
+public class DocxFillForm {
 	public enum FormType {Verweis, Attest};
 	final String PATH = "T:\\";
 	private final boolean debug = true;
@@ -89,8 +90,8 @@ public class PDFFillForm {
 	
 	/** For testing purposes */
 	public static void main(String[] args){		
-		new PDFFillForm().CreateNewDocx(FormType.Attest);
-		new PDFFillForm().CreateNewDocx(FormType.Verweis);
+		new DocxFillForm().CreateNewDocx(FormType.Attest);
+		new DocxFillForm().CreateNewDocx(FormType.Verweis);
 	}	
 	
 	/** Fills a field of a form with a value. Skips if field is not found */
