@@ -116,7 +116,6 @@ public class DBConnectionManagerImpl implements DBConnectionManager {
 
 	}
 
-	@SuppressWarnings("deprecation")
 	@Override
 	public SessionFactory getSessionFactory() {
 		try {

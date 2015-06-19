@@ -3,7 +3,6 @@
  */
 package com.impl.database.connection;
 
-import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
 /**
@@ -18,6 +17,7 @@ public interface DBConnectionManager {
 
 	public void update(Object object);
 
+	@SuppressWarnings("rawtypes")
 	public Object get(Class clazz, Object object);
 
 	public SessionFactory getSessionFactory();
