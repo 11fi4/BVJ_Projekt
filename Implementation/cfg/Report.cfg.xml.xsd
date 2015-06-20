@@ -1,3 +1,42 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xs:targetNamespace="Report.cfg.xml.xsd" xs:elementFormDefault="qualified">
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           targetNamespace="Report.cfg.xml.xsd"
+           elementFormDefault="qualified">
+  <xs:element name="ReportConfig">
+    <xs:complexType mixed="true">
+      <xs:sequence>
+        <xs:element name="EnviromentSettings">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="TempDir">
+                <xs:complexType>
+                  <xs:attribute name="Location" type="xs:string"/>
+                  <xs:attribute name="DeleteTempFolders" type="xs:string"/>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="FormatSettings">
+          <xs:complexType mixed="true">
+            <xs:sequence minOccurs="0" maxOccurs="unbounded">
+              <xs:element name="SettingsGroup">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="Set" minOccurs="0" maxOccurs="unbounded">
+                      <xs:complexType>
+                        <xs:attribute name="Key" type="xs:string"/>
+                        <xs:attribute name="Value" type="xs:string"/>
+                      </xs:complexType>
+                    </xs:element>
+                  </xs:sequence>
+                  <xs:attribute name="Format" type="xs:string"/>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
 </xs:schema>
