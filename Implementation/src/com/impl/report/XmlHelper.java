@@ -22,6 +22,28 @@ public class XmlHelper {
 	/**
 	 * Validates a Xml-file against a given Xsd-schema
 	 * 
+	 * @param xmlFilePath
+	 *            path to xml
+	 * @param xdfFilePath
+	 *            path to xsd
+	 * @return returns true if validation succeeded, throws exception if not
+	 * @throws Exception
+	 *             Exception is thrown if file is not valid or file can't be
+	 *             Accessed
+	 */
+	public static boolean ValidateDocument(String xmlFilePath,
+			String xdfFilePath) throws Exception {
+		
+		//nur eine fassaden-funktion
+		File xmlFile = new File(xmlFilePath);
+		File xsdFile = new File(xdfFilePath);
+
+		return ValidateDocument(xmlFile, xsdFile);
+	}
+
+	/**
+	 * Validates a Xml-file against a given Xsd-schema
+	 * 
 	 * @param xmlFile
 	 * @param xsdFile
 	 * @return returns true if validation succeeded, throws exception if not
@@ -40,6 +62,10 @@ public class XmlHelper {
 			validator.validate(new StreamSource(xmlFile));
 			return true;
 		} catch (Exception ex) {
+			
+			//TODO: the java-validator can't handle namespaces obviously....
+			//xsd-prefix is hardcoded as default even tho xs-prefix is given
+			
 			throw ex;
 		}
 	}

@@ -3,6 +3,7 @@
 	<name>SoapInterface</name>
 	<comment></comment>
 	<projects>
+		<project>BVJ_Backend</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

@@ -98,8 +98,50 @@ public class Configuration {
 		}
 	}
 
+	/**
+	 * Parses a Settings node and return a FormatSettings object if
+	 * configuration was properly
+	 * 
+	 * @param node
+	 *            The SettingsGroup node
+	 * @return Returns FormatSettings object if settings are contained and
+	 *         returns null if otherwise
+	 */
 	private static FormatSettings SettingsFromNode(Node node) {
-		// TODO implement
+
+		Node formatAttr = node.getAttributes().getNamedItem("Format");
+		if (formatAttr != null) {
+
+			// setup
+			String fVal = formatAttr.getTextContent();
+			Hashtable<String, String> ht = new Hashtable<String, String>();
+			Formats format = Formats.valueOf(fVal);
+
+			// loop setNodes
+			NodeList setNodes = node.getChildNodes();
+			for (int i = 0; i < setNodes.getLength(); i++) {
+				Node setNode = setNodes.item(i);
+				if (setNode.getLocalName() == "Set") {
+					Node keyNode = setNode.getAttributes().getNamedItem("Key");
+					Node valueNode = setNode.getAttributes().getNamedItem(
+							"Value");
+
+					if (keyNode != null && valueNode != null) {
+						ht.put(keyNode.getTextContent(),
+								valueNode.getTextContent());
+					}
+				}
+			}
+
+			// if settings where found -> create and return/ else return null
+			if (!ht.isEmpty()) {
+				FormatSettings fs = new FormatSettings(ht, format);
+				return fs;
+			}
+		}
+
+		// should be unreachable code if validation and configuration work
+		// together
 		return null;
 	}
 }
