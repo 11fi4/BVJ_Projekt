@@ -17,6 +17,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
@@ -32,8 +33,9 @@ public class Student implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue  //(generator = "increment")
-	@Column(name = "id", unique = true, nullable = false)
+	@GeneratedValue
+	// (generator = "increment")
+	@Column(name = "student_id", unique = true, nullable = false)
 	protected int student_id;
 
 	@Column(name = "name", nullable = false)
@@ -46,8 +48,8 @@ public class Student implements Serializable {
 	protected int contactId;
 	@Column(name = "class_id")
 	protected int classId;
-	@Column(name = "email")
-	protected String eMail;
+	@Column(name = "EMail")
+	protected String EMail;
 	@Column(name = "phone_number")
 	protected String phoneNumber;
 	@Column(name = "address")
@@ -57,12 +59,23 @@ public class Student implements Serializable {
 	joinColumns = { @JoinColumn(name = "STUDENT_ID", nullable = false, updatable = false) },//
 	inverseJoinColumns = { @JoinColumn(name = "PARENT_ID", nullable = false, updatable = false) })
 	protected Set<Parent> parents = new HashSet<Parent>();
-
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "student")
+	public Set<Detension> detensions = new HashSet<Detension>();
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "student")
+	public Set<Comment> comments = new HashSet<Comment>();
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "student")
+	public Set<Warning> warnings = new HashSet<Warning>();
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "student")
+	public Set<Absent> Absents = new HashSet<Absent>();
+	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JoinTable(name = "STUDENT_PARENT",//
+	joinColumns = { @JoinColumn(name = "STUDENT_ID", nullable = false, updatable = false) },//
+	inverseJoinColumns = { @JoinColumn(name = "CLASS_ID", nullable = false, updatable = false) })
+	protected Set<Class> classes = new HashSet<Class>();
+	
 	public Student() {
 	}
 
-	
-	
 	public Set<Parent> getParents() {
 		return this.parents;
 	}
@@ -112,11 +125,11 @@ public class Student implements Serializable {
 	}
 
 	public String getEMail() {
-		return eMail;
+		return EMail;
 	}
 
 	public void setEMail(String eMail) {
-		this.eMail = eMail;
+		EMail = eMail;
 	}
 
 	public String getPhoneNumber() {
@@ -143,5 +156,44 @@ public class Student implements Serializable {
 		this.gender = gender;
 	}
 
+	public Set<Detension> getDetensions() {
+		return detensions;
+	}
+
+	public void setDetensions(Set<Detension> detensions) {
+		this.detensions = detensions;
+	}
+
+	public Set<Comment> getComments() {
+		return comments;
+	}
+
+	public void setComments(Set<Comment> comments) {
+		this.comments = comments;
+	}
+
+	public Set<Warning> getWarnings() {
+		return warnings;
+	}
+
+	public void setWarnings(Set<Warning> warnings) {
+		this.warnings = warnings;
+	}
+
+	public Set<Absent> getAbsents() {
+		return Absents;
+	}
+
+	public void setAbsents(Set<Absent> absents) {
+		Absents = absents;
+	}
+
+	public Set<Class> getClasses() {
+		return classes;
+	}
+
+	public void setClasses(Set<Class> classes) {
+		this.classes = classes;
+	}
 
 }
