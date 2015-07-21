@@ -17,6 +17,12 @@ public class Configuration {
 	public static Path GetTempDir() {
 		return _tempDir;
 	}
+	
+	private static Path _publishDir;
+	
+	public static Path GetPublishDir() {
+		return _publishDir;
+	}
 
 	private static Hashtable<Formats, FormatSettings> _formatSettings;
 
@@ -75,6 +81,17 @@ public class Configuration {
 				try {
 					_tempDir = Paths.get(new URI(tmpVal));
 				} catch (Exception e) {
+					throw e;
+				}
+			}
+			
+			NodeList publishNodeList = doc.getElementsByTagName("Publish");
+			if(publishNodeList.getLength()==1) {
+				String pubVal = publishNodeList.item(0).getNodeValue();
+				try {
+					_publishDir = Paths.get(new URI(pubVal));
+				}
+				catch (Exception e) {
 					throw e;
 				}
 			}
