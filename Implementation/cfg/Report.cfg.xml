@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
--<ReportConfig xmlns="Report.cfg.xml.xsd">
--	<EnviromentSettings>
--		<TempDir Location="C:\Temp" DeleteTempFolders="false"/>
--	</EnviromentSettings>
--	<FormatSettings>
--		<SettingsGroup Format="Html">
--			<!-- Either embed or reference .css file-->
--			<Set Key="EmbedStyle" Value="false"/>
--			<!-- true for debugging, sonst false empfohlen -->
--			<Set Key="Indent" Value="true"/>
--		</SettingsGroup>
--		<SettingsGroup Format="Pdf">
--			<Set Key="Version" Value="1.4"/>
--		</SettingsGroup>
--		<SettingsGroup Format="Word">
--			<!-- Vorlage kopieren oder vom Netz benutzen. kopieren empfohlen-->
--			<Set Key="CopyTemplate" Value="true"/>
--		</SettingsGroup>
--	</FormatSettings>
--</ReportConfig>
+<ReportConfig xmlns="Report.cfg.xml.xsd">
+	<EnviromentSettings>
+			<TempDir Location="C:\Temp" DeleteTempFolders="false"/>
+	</EnviromentSettings>
+	<FormatSettings>
+		<SettingsGroup Format="Html">
+			<!-- Either embed or reference .css file-->
+			<Set Key="EmbedStyle" Value="false"/>
+			<!-- true for debugging, sonst false empfohlen -->
+			<Set Key="Indent" Value="true"/>
+		</SettingsGroup>
+	<SettingsGroup Format="Pdf">
+			<Set Key="Version" Value="1.4"/>
+		</SettingsGroup>
+		<SettingsGroup Format="Word">
+			<!-- Vorlage kopieren oder vom Netz benutzen. kopieren empfohlen-->
+			<Set Key="CopyTemplate" Value="true"/>
+		</SettingsGroup>
+	</FormatSettings>
+</ReportConfig>

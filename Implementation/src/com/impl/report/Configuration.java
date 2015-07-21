@@ -45,8 +45,9 @@ public class Configuration {
 	 * @throws Exception
 	 */
 	public static void Initialise() throws Exception {
-		File configFile = new File("/cfg/report.cfg.xml");
-		File schemaFile = new File("/cfg/report.cfg.xml.xsd");
+		
+		File configFile = new File("cfg\\Report.cfg.xml");
+		File schemaFile = new File("cfg\\Report.cfg.xml.xsd");
 
 		if (XmlHelper.ValidateDocument(configFile, schemaFile)) {
 
