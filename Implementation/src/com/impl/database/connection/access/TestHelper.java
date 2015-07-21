@@ -8,6 +8,7 @@ import com.impl.database.connection.DBConnectionManager;
 import com.impl.database.connection.DBConnectionManagerImpl;
 import com.impl.database.elements.Parent;
 import com.impl.database.elements.Student;
+import com.impl.database.elements.User;
 
 public class TestHelper {
 
@@ -25,6 +26,7 @@ public class TestHelper {
 	public synchronized static void fillDB() {
 		DBConnectionManager connectionManager = new DBConnectionManagerImpl();
 		
+		// parents
 		Set<Parent> parents = new HashSet<Parent>();
 		Parent parent = new Parent();
 		parent.setName("Wllner");
@@ -32,6 +34,7 @@ public class TestHelper {
 		parent.setAddress("Ohmstrasse 5, 97083 Würzburg");
 		parents.add(parent);
 
+		// add students for list / class
 		for (int i = 0; i < 100; i++) {
 			Student student4 = new Student();
 			student4.setName("Steinam_" + i);
@@ -58,5 +61,11 @@ public class TestHelper {
 			connectionManager.insert(student4);
 			parents.removeAll(parents);
 		}
+		
+		// add user Steinam
+		User steinamUser = new User();
+		steinamUser.setName("Steinam");
+		steinamUser.setClasses(null);
+		connectionManager.insert(steinamUser);
 	}
 }

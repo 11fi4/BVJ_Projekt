@@ -10,6 +10,7 @@ import org.hibernate.criterion.Restrictions;
 import com.impl.database.connection.DBConnectionManager;
 import com.impl.database.connection.DBConnectionManagerImpl;
 import com.impl.database.elements.Student;
+import com.impl.database.elements.User;
 
 public class DBAccessImpl implements DBAccess {
 	public DBAccessImpl() {
@@ -49,4 +50,27 @@ public class DBAccessImpl implements DBAccess {
 		
 		return student;
 	}
+	
+//	public List<Student> getClassByName(String className) {
+//		Transaction tx = session.beginTransaction();
+//		
+//		Criteria criteria = session.createCriteria(Student.class).add(Restriction.eq("name", className));
+//	}
+
+	@Override
+	public User getUser(String username, String password) {
+		Transaction tx = session.beginTransaction();
+		
+		Criteria criteria = session.createCriteria(User.class)
+				.add(Restrictions.eq("Username", username))
+				.add(Restrictions.eq("Password", password));
+		
+		User user = null;
+		if (criteria.list().size() > 0) {
+			user = (User) criteria.list().get(0);
+		}
+		
+		return user;
+	}
+	
 }
