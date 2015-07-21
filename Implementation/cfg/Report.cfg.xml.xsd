@@ -15,7 +15,9 @@
                 </xs:complexType>
               </xs:element>
               <xs:element name="Publish">
-              <xs:complexType></xs:complexType>
+                <xs:complexType>
+                  <xs:attribute name="Location" type="xs:string"/>
+                </xs:complexType>
               </xs:element>
             </xs:sequence>
          </xs:complexType>
