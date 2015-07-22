@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ReportConfig xmlns="Report.cfg.xml.xsd">
 	<EnviromentSettings>
-			<TempDir Location="file:/C:/Temp" DeleteTempFolders="false"/>
+			<TempDir Location="file:/C:/Temp" DeleteTempFolders="true"/>
 			<!--This is where the final publications are stored-->
 			<Publish Location="file:/T:/"/>
 	</EnviromentSettings>

@@ -24,6 +24,19 @@ public class Configuration {
 		return _publishDir;
 	}
 
+	private static boolean _deleteTempFolders;
+
+	/**
+	 * Indicates if the temporary directories should be deleted when publication
+	 * is finished
+	 * 
+	 * @return Returns if the temporary directories should be deleted when
+	 *         publication is finished
+	 */
+	public static boolean GetDeleteTempFolders() {
+		return _deleteTempFolders;
+	}
+
 	private static Hashtable<Formats, FormatSettings> _formatSettings;
 
 	public static FormatSettings GetSettingsForFormat(Formats format) {
@@ -80,7 +93,13 @@ public class Configuration {
 							.getNodeValue()));
 				}
 
-				// TODO get delete-attribute and parse as boolean
+				// get delete-attribute and parse as boolean
+				Node DeleteFoldersAttribute = TempDirNode.getAttributes()
+						.getNamedItem("DeleteTempFolders");
+				if (DeleteFoldersAttribute != null) {
+					String delVal = DeleteFoldersAttribute.getNodeValue();
+					_deleteTempFolders = Boolean.parseBoolean(delVal);
+				}
 			}
 
 			NodeList publishNodeList = doc.getElementsByTagName("Publish");
