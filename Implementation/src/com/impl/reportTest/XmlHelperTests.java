@@ -9,8 +9,8 @@ public class XmlHelperTests {
 
 	@Test
 	public void XmlHelper_ValidateDoc_validatesReportConfig() throws Exception {
-		assertTrue(XmlHelper.ValidateDocument("/cfg/Report.cfg.xml",
-				"/cfg/Report.cfg.xml.xsd"));
+		assertTrue(XmlHelper.ValidateDocument("cfg\\Report.cfg.xml",
+				"cfg\\Report.cfg.xml.xsd"));
 	}
 
 }

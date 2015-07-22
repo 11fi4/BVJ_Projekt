@@ -1,6 +1,7 @@
 package com.impl.soapinterface;
 
 import java.util.Date;
+import java.util.HashMap;
 
 import com.impl.soapinterface.ResponseBase.ERROR_CODES;
 
@@ -80,5 +81,16 @@ public class SoapConnectionManager {
 			return true;
 
 		return false;
+	}
+	
+	private ResponseMap getTestStudentMap(){
+		HashMap<Integer, String> myMap = new HashMap<Integer,String>();
+		myMap.put(0, "Hans");
+		myMap.put(1, "Klaus");
+		myMap.put(2, "Patrick");
+		myMap.put(3, "Steinam");
+		ResponseMap resp = new ResponseMap(myMap);
+		
+		
 	}
 }

@@ -3,6 +3,9 @@ package com.impl.report;
 import java.util.*;
 import java.nio.file.*;
 
+//json
+import org.json.*;
+
 //report.publisher
 import com.impl.report.html.HtmlPublisher;
 import com.impl.report.pdf.PdfPublisher;
@@ -46,17 +49,27 @@ public class PublishingController {
 				tempDir = getTempDirectory();
 			}
 
-			String inputXml = JsonToXmlConverter.ConvertToXml(inputParams);
-			String inputXmlPath = Paths.get(tempDir.getFileName().toString(),
-					"input.xml").toString();
+			// create JSOnObject from String
+			JSONObject json = new JSONObject(inputParams);
 
-			XmlHelper.WriteXmlToFile(inputXml, inputXmlPath);
+			// validate
+			if (JsonHelper.Validate(json)) {
 
-			String outputPath = IoHelper.getOutputPath(tempDir, format);
+				String inputXml = JsonHelper.ConvertToXml(json);
+				String inputXmlPath = Paths.get(
+						tempDir.getFileName().toString(), "input.xml")
+						.toString();
 
-			IoHelper.EnsureDirctory(tempDir);
+				XmlHelper.WriteXmlToFile(inputXml, inputXmlPath);
 
-			publisher.Publish(inputXmlPath, outputPath);
+				String outputPath = IoHelper.getOutputPath(tempDir, format);
+
+				IoHelper.EnsureDirctory(tempDir);
+
+				publisher.Publish(inputXmlPath, outputPath);
+			} else {
+				// TODO throw exception with good message
+			}
 
 		} catch (Exception ex) {
 			// TODO implement logging

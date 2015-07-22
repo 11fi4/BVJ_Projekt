@@ -18,6 +18,25 @@ public class Configuration {
 		return _tempDir;
 	}
 
+	private static Path _publishDir;
+
+	public static Path GetPublishDir() {
+		return _publishDir;
+	}
+
+	private static boolean _deleteTempFolders;
+
+	/**
+	 * Indicates if the temporary directories should be deleted when publication
+	 * is finished
+	 * 
+	 * @return Returns if the temporary directories should be deleted when
+	 *         publication is finished
+	 */
+	public static boolean GetDeleteTempFolders() {
+		return _deleteTempFolders;
+	}
+
 	private static Hashtable<Formats, FormatSettings> _formatSettings;
 
 	public static FormatSettings GetSettingsForFormat(Formats format) {
@@ -45,36 +64,53 @@ public class Configuration {
 	 * @throws Exception
 	 */
 	public static void Initialise() throws Exception {
-		File configFile = new File("/cfg/report.cfg.xml");
-		File schemaFile = new File("/cfg/report.cfg.xml.xsd");
 
+		File configFile = new File("cfg\\Report.cfg.xml");
+		File schemaFile = new File("cfg\\Report.cfg.xml.xsd");
+
+		// validate config against shema
 		if (XmlHelper.ValidateDocument(configFile, schemaFile)) {
 
+			// create factory and builder
 			DocumentBuilderFactory factory = DocumentBuilderFactory
 					.newInstance();
 			DocumentBuilder builder = null;
+			builder = factory.newDocumentBuilder();
 
-			try {
-				builder = factory.newDocumentBuilder();
-			} catch (ParserConfigurationException e) {
-				throw e;
-			}
-
+			// parse document
 			Document doc = null;
-
-			try {
-				doc = builder.parse(configFile);
-			} catch (Exception ex) {
-				throw ex;
-			}
+			doc = builder.parse(configFile);
 
 			NodeList tempNodeList = doc.getElementsByTagName("TempDir");
 			if (tempNodeList.getLength() == 1) {
-				String tmpVal = tempNodeList.item(0).getNodeValue();
-				try {
-					_tempDir = Paths.get(new URI(tmpVal));
-				} catch (Exception e) {
-					throw e;
+				Node TempDirNode = tempNodeList.item(0);
+
+				// get location as Path
+				Node LocationAttribute = TempDirNode.getAttributes()
+						.getNamedItem("Location");
+				if (LocationAttribute != null) {
+					_tempDir = Paths.get(new URI(LocationAttribute
+							.getNodeValue()));
+				}
+
+				// get delete-attribute and parse as boolean
+				Node DeleteFoldersAttribute = TempDirNode.getAttributes()
+						.getNamedItem("DeleteTempFolders");
+				if (DeleteFoldersAttribute != null) {
+					String delVal = DeleteFoldersAttribute.getNodeValue();
+					_deleteTempFolders = Boolean.parseBoolean(delVal);
+				}
+			}
+
+			NodeList publishNodeList = doc.getElementsByTagName("Publish");
+			if (publishNodeList.getLength() == 1) {
+
+				// get publish location as path
+				Node LocationAttribute = publishNodeList.item(0)
+						.getAttributes().getNamedItem("Location");
+				if (LocationAttribute != null) {
+					_publishDir = Paths.get(new URI(LocationAttribute
+							.getNodeValue()));
 				}
 			}
 
@@ -87,11 +123,14 @@ public class Configuration {
 					Node grp = grps.item(i);
 					FormatSettings set = SettingsFromNode(grp);
 
-					if (!_formatSettings.containsKey(set.GetFormat())) {
-						_formatSettings.put(set.GetFormat(), set);
-					} else {
-						// TODO throw exception with message that settings
-						// for a format a configured at least duplicate
+					if (set != null) {
+
+						if (!_formatSettings.containsKey(set.GetFormat())) {
+							_formatSettings.put(set.GetFormat(), set);
+						} else {
+							// TODO throw exception with message that settings
+							// for a format a configured at least duplicate
+						}
 					}
 				}
 			}

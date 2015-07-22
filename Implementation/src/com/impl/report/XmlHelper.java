@@ -4,6 +4,7 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.logging.Logger;
 
 import javax.xml.XMLConstants;
 import javax.xml.transform.stream.StreamSource;
@@ -62,11 +63,15 @@ public class XmlHelper {
 			validator.validate(new StreamSource(xmlFile));
 			return true;
 		} catch (Exception ex) {
-			
-			//TODO: the java-validator can't handle namespaces obviously....
-			//xsd-prefix is hardcoded as default even tho xs-prefix is given
-			
-			throw ex;
+
+			// log exception as warning
+			Logger log = Logger.getGlobal();
+			String message = ex.getMessage();
+			// TODO find solution to get stacktrace as single String
+			log.warning(message);
+
+			// return false because something failed
+			return false;
 		}
 	}
 
