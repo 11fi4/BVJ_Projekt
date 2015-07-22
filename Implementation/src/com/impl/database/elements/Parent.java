@@ -33,8 +33,7 @@ public class Parent implements Serializable {
 	protected int parent_id;
 	@Column(name = "name", nullable = false)
 	protected String name;
-	@Column(name = "contact_id")
-	protected int contactId;
+	
 	@Column(name = "email")
 	protected String eMail;
 	@Column(name = "phone_number")
@@ -71,13 +70,7 @@ public class Parent implements Serializable {
 		this.name = name;
 	}
 
-	public int getContactId() {
-		return contactId;
-	}
-
-	public void setContactId(int contactId) {
-		this.contactId = contactId;
-	}
+	
 
 	public String geteMail() {
 		return eMail;

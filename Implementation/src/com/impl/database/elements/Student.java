@@ -44,35 +44,38 @@ public class Student implements Serializable {
 	protected Date birthdate;
 	@Column(name = "gender")
 	protected String gender;
-	@Column(name = "contact_id")
-	protected int contactId;
-	@Column(name = "class_id")
-	protected int classId;
 	@Column(name = "EMail")
 	protected String EMail;
 	@Column(name = "phone_number")
 	protected String phoneNumber;
 	@Column(name = "address")
 	protected String address;
+
+	
 	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinTable(name = "STUDENT_PARENT",//
 	joinColumns = { @JoinColumn(name = "STUDENT_ID", nullable = false, updatable = false) },//
 	inverseJoinColumns = { @JoinColumn(name = "PARENT_ID", nullable = false, updatable = false) })
 	protected Set<Parent> parents = new HashSet<Parent>();
+	
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "student")
 	public Set<Detension> detensions = new HashSet<Detension>();
+	
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "student")
 	public Set<Comment> comments = new HashSet<Comment>();
+	
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "student")
 	public Set<Warning> warnings = new HashSet<Warning>();
+	
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "student")
 	public Set<Absent> Absents = new HashSet<Absent>();
+	
 	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinTable(name = "STUDENT_PARENT",//
+	@JoinTable(name = "STUDENT_CLASS",//
 	joinColumns = { @JoinColumn(name = "STUDENT_ID", nullable = false, updatable = false) },//
 	inverseJoinColumns = { @JoinColumn(name = "CLASS_ID", nullable = false, updatable = false) })
 	protected Set<Class> classes = new HashSet<Class>();
-	
+
 	public Student() {
 	}
 
@@ -108,21 +111,6 @@ public class Student implements Serializable {
 		this.birthdate = birthdate;
 	}
 
-	public int getContactId() {
-		return contactId;
-	}
-
-	public void setContactId(int contactId) {
-		this.contactId = contactId;
-	}
-
-	public int getClassId() {
-		return classId;
-	}
-
-	public void setClassId(int classId) {
-		this.classId = classId;
-	}
 
 	public String getEMail() {
 		return EMail;
