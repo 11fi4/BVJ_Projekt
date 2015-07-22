@@ -4,12 +4,15 @@ import static org.junit.Assert.*;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.junit.Test;
 
 import com.impl.database.elements.Student;
 import com.impl.database.elements.User;
+import com.impl.database.elements.Class;
 
 public class DBAccessJUnit {
 		// JUnit testing for DBAccessImpl
@@ -60,14 +63,15 @@ public class DBAccessJUnit {
 	public void getZeroStudents() {
 		List<Student> expectedStudentsList = new ArrayList<Student>();
 				
-		assertEquals("Expected = 0 Students in list", expectedStudentsList, accessImpl.getAllStudents("111fi4"));
+		assertEquals("Expected = 0 Students in list", expectedStudentsList, accessImpl.getAllStudents("0fi4"));
 	}
 	
 	@Test
 	public void getCorrectUser() {
 		User expectedUser = new User();
 		expectedUser.setName("Steinam");
-		expectedUser.setClasses(null);
+		Set<Class> classSet = new LinkedHashSet<Class>();
+		expectedUser.setClasses(classSet);
 		
 		assertEquals("Expected user = Steinam", expectedUser, accessImpl.getUser("steinam", "12345678"));
 	}
