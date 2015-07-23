@@ -1,9 +1,12 @@
 package com.impl.soapinterface;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Map.Entry;
 
 import com.impl.soapinterface.ResponseBase.ERROR_CODES;
+import com.sun.jndi.ldap.EntryChangeResponseControl;
 
 public class SoapConnectionManager {
 
@@ -82,15 +85,29 @@ public class SoapConnectionManager {
 
 		return false;
 	}
+
+	public ResponseStringStringMap getClasses(){
+		String[] key = new String[4];
+		key[0] = "0";
+		key[1] = "1";
+		key[2] = "2";
+		key[3] = "3";
+		
+		String[] value = new String[4];
+		
+		value[0] = "11FI1";
+		value[1] = "11FI2";
+		value[2] = "11FI3";
+		value[3] = "11FI4";
+		
+		ResponseStringStringMap resp = new ResponseStringStringMap(key, value);
+		
+		return resp;
+	}
 	
-	private ResponseMap getTestStudentMap(){
-		HashMap<Integer, String> myMap = new HashMap<Integer,String>();
-		myMap.put(0, "Hans");
-		myMap.put(1, "Klaus");
-		myMap.put(2, "Patrick");
-		myMap.put(3, "Steinam");
-		ResponseMap resp = new ResponseMap(myMap);
-		
-		
+	public ResponseInt getStudentCountByClassId(Integer classId){
+		ResponseInt resp = new ResponseInt(10);
+	
+		return resp;
 	}
 }
