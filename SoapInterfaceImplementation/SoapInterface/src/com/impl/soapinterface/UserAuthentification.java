@@ -6,7 +6,8 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import com.impl.soapinterface.ResponseBase.ERROR_CODES;
+import com.impl.soapinterface.responses.ResponseBase;
+import com.impl.soapinterface.responses.ResponseBase.ERROR_CODES;
 
 public class UserAuthentification {
 

@@ -1,12 +1,12 @@
 package com.impl.soapinterface;
-
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map.Entry;
 
-import com.impl.soapinterface.ResponseBase.ERROR_CODES;
-import com.sun.jndi.ldap.EntryChangeResponseControl;
+import com.impl.soapinterface.responses.ResponseBool;
+import com.impl.soapinterface.responses.ResponseInt;
+import com.impl.soapinterface.responses.ResponseLogin;
+import com.impl.soapinterface.responses.ResponseString;
+import com.impl.soapinterface.responses.ResponseStringStringMap;
+import com.impl.soapinterface.responses.ResponseBase.ERROR_CODES;
 
 public class SoapConnectionManager {
 
@@ -14,6 +14,19 @@ public class SoapConnectionManager {
 
 	static boolean isInitialized = false;
 
+	// Dummy return
+		// This class represents the implementation of any method call.
+		// Please refer to this structure when implementing new methods
+		public ResponseInt return5(String authMD5) {
+			ResponseInt resp = new ResponseInt();
+
+			if (userAuth.checkAthentification(authMD5, 0, resp)) {
+				resp.setValue(5);
+			}
+
+			return resp;
+		}
+	
 	public SoapConnectionManager() {
 		if (!isInitialized) {
 			System.out.println("Initialising new Server session");
@@ -22,18 +35,7 @@ public class SoapConnectionManager {
 		}
 	}
 
-	// Dummy return
-	// This class represents the implementation of any method call.
-	// Please refer to this structure when implementing new methods
-	public ResponseInt return5(String authMD5) {
-		ResponseInt resp = new ResponseInt();
-
-		if (userAuth.checkAthentification(authMD5, 0, resp)) {
-			resp.setValue(5);
-		}
-
-		return resp;
-	}
+	
 
 	public ResponseBool logOut(String authMD5) {
 		ResponseBool resp = new ResponseBool();
@@ -86,22 +88,75 @@ public class SoapConnectionManager {
 		return false;
 	}
 
-	public ResponseStringStringMap getClasses(){
-		String[] key = new String[4];
-		key[0] = "0";
-		key[1] = "1";
-		key[2] = "2";
-		key[3] = "3";
-		
-		String[] value = new String[4];
-		
-		value[0] = "11FI1";
-		value[1] = "11FI2";
-		value[2] = "11FI3";
-		value[3] = "11FI4";
-		
-		ResponseStringStringMap resp = new ResponseStringStringMap(key, value);
-		
+	public ResponseStringStringMap getClasses(String authMD5){
+		ResponseStringStringMap resp = new ResponseStringStringMap();
+
+		if (userAuth.checkAthentification(authMD5, 0, resp)) {
+			String[] key = new String[4];
+			key[0] = "0";
+			key[1] = "1";
+			key[2] = "2";
+			key[3] = "3";
+			
+			String[] value = new String[4];
+			
+			value[0] = "11FI1";
+			value[1] = "11FI2";
+			value[2] = "11FI3";
+			value[3] = "11FI4";
+			
+			resp.setValues(key,value);
+		}
+
+		return resp;
+	}
+	
+	public ResponseStringStringMap getStudents(String authMD5){
+		ResponseStringStringMap resp = new ResponseStringStringMap();
+
+		if (userAuth.checkAthentification(authMD5, 0, resp)) {
+			String[] key = new String[4];
+			key[0] = "0";
+			key[1] = "1";
+			key[2] = "2";
+			key[3] = "3";
+			
+			String[] value = new String[4];
+			
+			value[0] = "Hans";
+			value[1] = "Petzer";
+			value[2] = "PedoRick";
+			value[3] = "Steinam";
+			
+			resp.setValues(key,value);
+		}
+
+		return resp;
+	}
+	
+	public ResponseString getStudentName(String authMD5, int studentID){
+		ResponseString resp = new ResponseString();
+
+		//Todo DB
+		if (userAuth.checkAthentification(authMD5, 0, resp)) {
+			String studentName = StudentData.getStudentName(studentID);
+			
+			resp.setValue(studentName);
+		}
+
+		return resp;
+	}
+	
+	public ResponseString getStudentClassId(String authMD5, int studentID){
+		ResponseString resp = new ResponseString();
+
+		//Todo DB
+		if (userAuth.checkAthentification(authMD5, 0, resp)) {
+			Integer classId = StudentData.getStudentClass(studentID);
+			
+			resp.setValue(classId.toString());
+		}
+
 		return resp;
 	}
 	
