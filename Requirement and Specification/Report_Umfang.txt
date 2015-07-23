@@ -1,9 +1,0 @@
-Umfang des Report-Projektes:
-
-Formate:
-- Html
-- Pdf
-- Word
-
-Dokument-Typen:
-- Verweis
