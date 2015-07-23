@@ -1,7 +1,6 @@
 package com.impl.soapinterface.responses;
 
-import java.util.HashMap;
-
+@SuppressWarnings("serial")
 public class ResponseStringStringMap extends ResponseBase{
 	
 	String[] key;

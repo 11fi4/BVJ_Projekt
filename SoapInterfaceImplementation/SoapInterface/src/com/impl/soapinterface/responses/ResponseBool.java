@@ -1,5 +1,6 @@
 package com.impl.soapinterface.responses;
 
+@SuppressWarnings("serial")
 public class ResponseBool extends ResponseBase {
 	public ResponseBool(){
 		

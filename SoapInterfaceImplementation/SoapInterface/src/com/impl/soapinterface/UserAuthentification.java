@@ -2,10 +2,7 @@ package com.impl.soapinterface;
 
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
-import java.util.Map.Entry;
-
 import com.impl.soapinterface.responses.ResponseBase;
 import com.impl.soapinterface.responses.ResponseBase.ERROR_CODES;
 

@@ -2,6 +2,7 @@ package com.impl.soapinterface.responses;
 
 import java.io.Serializable;
 
+@SuppressWarnings("serial")
 public class ResponseBase implements Serializable {
 
 	public enum ERROR_CODES {
