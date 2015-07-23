@@ -55,8 +55,7 @@ public class IoHelper {
 			break;
 
 		default:
-			// TODO refactor this dependancy
-			PublishingController.TrowNotSupportedForFormat(format);
+			return extension;
 		}
 
 		UUID ran = UUID.randomUUID();

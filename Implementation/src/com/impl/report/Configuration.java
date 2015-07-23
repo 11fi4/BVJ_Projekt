@@ -37,7 +37,7 @@ public class Configuration {
 		return _deleteTempFolders;
 	}
 
-	private static Hashtable<Formats, FormatSettings> _formatSettings;
+	private static Hashtable<Formats, FormatSettings> _formatSettings = new Hashtable<Formats, FormatSettings>();
 
 	public static FormatSettings GetSettingsForFormat(Formats format) {
 		if (_formatSettings != null) {
@@ -117,7 +117,6 @@ public class Configuration {
 			// loops SettingsGroups
 			NodeList grps = doc.getElementsByTagName("SettingsGroup");
 			if (grps.getLength() != 0) {
-				_formatSettings = new Hashtable<Formats, FormatSettings>();
 
 				for (int i = 0; i < grps.getLength(); i++) {
 					Node grp = grps.item(i);
@@ -135,6 +134,8 @@ public class Configuration {
 				}
 			}
 		}
+
+		_isInitialized = true;
 	}
 
 	/**
@@ -160,7 +161,10 @@ public class Configuration {
 			NodeList setNodes = node.getChildNodes();
 			for (int i = 0; i < setNodes.getLength(); i++) {
 				Node setNode = setNodes.item(i);
-				if (setNode.getLocalName() == "Set") {
+				
+				// TODO: bug: localname is null, causes iteration to fail 
+				String localName = setNode.getLocalName();
+				if (localName == "Set") {
 					Node keyNode = setNode.getAttributes().getNamedItem("Key");
 					Node valueNode = setNode.getAttributes().getNamedItem(
 							"Value");
@@ -182,5 +186,10 @@ public class Configuration {
 		// should be unreachable code if validation and configuration work
 		// together
 		return null;
+	}
+
+	public static void Reset() {
+		_isInitialized = false;
+		_formatSettings.clear();
 	}
 }
