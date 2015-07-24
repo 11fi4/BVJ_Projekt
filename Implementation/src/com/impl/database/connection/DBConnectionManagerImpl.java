@@ -128,4 +128,23 @@ public class DBConnectionManagerImpl implements DBConnectionManager {
 		return factory;
 	}
 
+	@Override
+	public void createHQLQuery(String query) {
+		Session session = factory.openSession();
+		Transaction tx = null;
+		try {
+			tx = session.beginTransaction();
+			session.createQuery(query).executeUpdate();
+			tx.commit();
+		} catch (HibernateException e) {
+			if (tx != null) {
+				tx.rollback();
+			}
+			e.printStackTrace();
+		} finally {
+			session.close();
+		}
+		
+	}
+
 }
