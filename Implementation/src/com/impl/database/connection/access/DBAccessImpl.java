@@ -70,11 +70,11 @@ public class DBAccessImpl implements DBAccess {
 		Transaction tx = session.beginTransaction();
 
 		Criteria criteria = session.createCriteria(UserAccount.class)
-				.add(Restrictions.eq("Username", username))
-				.add(Restrictions.eq("Password", password));
+				.add(Restrictions.eq("username", username))
+				.add(Restrictions.eq("password", password));
 
 		UserAccount user = null;
-		if (criteria.list().size() > 0) {
+		if (criteria.list() != null && criteria.list().size() > 0) {
 			user = (UserAccount) criteria.list().get(0);
 		}
 
