@@ -32,10 +32,11 @@ public class TestApplication extends DBConnectionManagerImpl {
 
 		 // Insert new record
 		 Student student1 = new Student();
-		 student1.setName("Steinam");
+		 student1.setFirstName("Karl");
+		 student1.setLastName("Steinam");
 		 student1.setBirthdate(new Date(2015, 6, 15));
 		 student1.setGender("männlich");
-		 student1.setEMail("steinam@steinam.de");
+		 student1.seteMail("steinam@steinam.de");
 		 student1.setPhoneNumber("0049931294637");
 		 student1.setAddress("Salamancastrasse 6, 97084 Würzburg");
 		 connectionManager.insert(student1);
@@ -45,19 +46,21 @@ public class TestApplication extends DBConnectionManagerImpl {
 		 Student student2 = (Student) connectionManager.get(Student.class,
 		 studentId);
 		 if (null != student2) {
-		 System.out.println(student2.getName());
+		 System.out.println(student2.getFirstName());
+		 System.out.println(student2.getLastName());
 		 System.out.println(student2.getGender());
-		 System.out.println(student2.getEMail());
+		 System.out.println(student2.geteMail());
 		 } else {
 		 System.out.println("No records found");
 		 }
 		
 		 // Update existing record
 		if(student2!=null){
-		 student2.setName("Steinam_2");
+			 student2.setFirstName("Karl");
+		 student2.setLastName("Steinam_2");
 		 student2.setBirthdate(new Date(2015, 6, 15));
 		 student2.setGender("weiblich");
-		 student2.setEMail("steinam2@steinam.de");
+		 student2.seteMail("steinam2@steinam.de");
 		 student2.setPhoneNumber("0049931294637");
 		 student2.setAddress("Salamancastrasse 6, 97084 Würzburg");
 		 connectionManager.update(student2);
@@ -69,15 +72,17 @@ public class TestApplication extends DBConnectionManagerImpl {
 		 Student student3 = (Student) connectionManager.get(Student.class,
 		 studentId);
 		 if (null != student3) {
-		 System.out.println(student3.getName());
+		 System.out.println(student3.getFirstName());
+		 System.out.println(student3.getLastName());
 		 System.out.println(student3.getGender());
-		 System.out.println(student3.getEMail());
+		 System.out.println(student3.geteMail());
 		
 		
 		 // Add parent to the student
 		
 		 Parent parent = new Parent();
-		 parent.setName("Wllner");
+		 parent.setFirstName("Casandra");
+		 parent.setLastName("Wallner");
 		 parent.setPhoneNumber("04993103847");
 		 parent.setAddress("Ohmstrasse 5, 97083 Würzburg");
 		 parent.seteMail("wallner@gmail.com");
@@ -96,23 +101,26 @@ public class TestApplication extends DBConnectionManagerImpl {
 		
 		 for (int i = 1; i < 50; i++) {
 		 Student student4 = new Student();
-		 student4.setName("Steinam_" + i);
+		 student4.setFirstName("Karl");
+		 student4.setLastName("Steinam_" + i);
 		 student4.setBirthdate(new Date(1920 + i, 1, 1));
 		 student4.setGender(((i % 2) != 0) ? "männlich" : "weiblich");
-		 student4.setEMail("steinam_" + i + "@steinam.de");
+		 student4.seteMail("steinam_" + i + "@steinam.de");
 		 student4.setPhoneNumber("0049931294637");
 		 student4.setAddress("Salamancastrasse " + i + " , 97084 Würzburg");
 		
 		 // add few parent
 		 Parent parent1 = new Parent();
-		 parent1.setName("Wllner" + i);
+		 parent1.setFirstName("Casandra" );
+		 parent1.setLastName("Wallner" + i);
 		 parent1.setPhoneNumber("04993103847");
 		 parent1.setAddress("Ohmstrasse 5, 97083 Würzburg");
 		 parent1.seteMail("wallner@gmail.com");
 		 parents.add(parent1);
 		
 		 Parent parent2 = new Parent();
-		 parent2.setName("zobel" + i);
+		 parent2.setFirstName("Tommy");
+		 parent2.setLastName("Zobel" + i);
 		 parent2.setPhoneNumber("04993103647");
 		 parent2.setAddress("Ohmstrasse 6, 97083 Würzburg");
 		 parent2.seteMail("zobel@gmail.com");
@@ -126,14 +134,14 @@ public class TestApplication extends DBConnectionManagerImpl {
 //		// create citeria to get student steinam33
 //		Session session = connectionManager.getSessionFactory().openSession();
 //
-//		Transaction tx = session.beginTransaction();
+//		// Transaction tx = session.beginTransaction();
 //
 //		Criteria criteria = session.createCriteria(Student.class).add(
-//				Restrictions.eq("name", "Steinam_33"));
+//				Restrictions.eq("lastName", "Steinam_33"));
 //		criteria.setMaxResults(10);
-//		List list = criteria.list();
+//		List<?> list = criteria.list();
 //		Student studentGet = (Student) list.iterator().next();
-//		System.out.println(studentGet.getName());
+//		System.out.println(studentGet.getFirstName());
 //		session.close();
 //		// Exit
 //		Thread.currentThread().interrupt();

@@ -16,15 +16,15 @@ import javax.persistence.Table;
  * @author kuslu
  */
 @Entity
-@Table(name = "COMMENT")
+@Table(name = "comment")
 public class Comment implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue  //(generator = "increment")
+	@GeneratedValue
+	// (generator = "increment")
 	@Column(name = "comment_id", unique = true, nullable = false)
 	protected int comment_id;
-
 	@Column(name = "date", nullable = false)
 	protected Date date;
 	@Column(name = "text")
@@ -32,8 +32,9 @@ public class Comment implements Serializable {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "student_id", nullable = false)
 	protected Student student;
-	
-	public Comment(){}
+
+	public Comment() {
+	}
 
 	public int getComment_id() {
 		return comment_id;
@@ -66,6 +67,5 @@ public class Comment implements Serializable {
 	public void setStudent(Student student) {
 		this.student = student;
 	}
-	
-	
+
 }

@@ -17,11 +17,9 @@ import javax.persistence.Table;
  *
  */
 @Entity
-@Table(name = "USER")
+@Table(name = "user")
 public class User implements Serializable {
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -29,11 +27,14 @@ public class User implements Serializable {
 	// (generator = "increment")
 	@Column(name = "user_id", unique = true, nullable = false)
 	protected int user_id;
-
 	@Column(name = "name", nullable = false)
 	protected String name;
+	@Column(name = "username")
+	protected String username;
+	@Column(name = "password")
+	protected String password;
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
-	public Set<Class> classes = new HashSet<Class>();
+	protected Set<ClassUser> classUsers = new HashSet<ClassUser>();
 
 	public User() {
 	}
@@ -54,12 +55,28 @@ public class User implements Serializable {
 		this.name = name;
 	}
 
-	public Set<Class> getClasses() {
-		return classes;
+	public String getUsername() {
+		return username;
 	}
 
-	public void setClasses(Set<Class> classes) {
-		this.classes = classes;
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public Set<ClassUser> getClassUsers() {
+		return classUsers;
+	}
+
+	public void setClassUsers(Set<ClassUser> classUsers) {
+		this.classUsers = classUsers;
 	}
 
 }

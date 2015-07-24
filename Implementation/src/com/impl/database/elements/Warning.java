@@ -20,7 +20,7 @@ import javax.persistence.Table;
  *
  */
 @Entity
-@Table(name = "WARNING")
+@Table(name = "warning")
 public class Warning implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -29,7 +29,6 @@ public class Warning implements Serializable {
 	// (generator = "increment")
 	@Column(name = "warning_id", unique = true, nullable = false)
 	protected int warning_id;
-
 	@Column(name = "date", nullable = false)
 	protected Date date;
 	@Column(name = "comment")
