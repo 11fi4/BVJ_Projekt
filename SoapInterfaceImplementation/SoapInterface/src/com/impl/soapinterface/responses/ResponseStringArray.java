@@ -5,6 +5,10 @@ public class ResponseStringArray extends ResponseBase{
 	
 	String[] value;
 	
+	public void setValue(String[] value) {
+		this.value = value;
+	}
+
 	public ResponseStringArray(){
 		
 	}

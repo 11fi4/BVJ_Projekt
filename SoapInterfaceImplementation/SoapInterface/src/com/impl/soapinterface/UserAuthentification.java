@@ -149,22 +149,25 @@ public class UserAuthentification {
 
 	private void checkActiveSessionsForTimeout() {
 
-		System.out.println("Checking for Session Timeouts");
+		if(!userAuthList.isEmpty()){
+			System.out.println("Checking for Session Timeouts");
 
-		for (Map.Entry<String, UserAuthentificationInformation> entry : userAuthList
-				.entrySet()) {
-			String key = entry.getKey();
-			UserAuthentificationInformation authInfo = entry.getValue();
+			for (Map.Entry<String, UserAuthentificationInformation> entry : userAuthList
+					.entrySet()) {
+				String key = entry.getKey();
+				UserAuthentificationInformation authInfo = entry.getValue();
 
-			if (new Date().getTime() > authInfo.loginTimestamp + sessionTimeout) {
-				// Log timeout
-				System.out.println("Session for user: " + authInfo.username
-						+ " expired. Logging out");
-				logOutUser(key);
+				if (new Date().getTime() > authInfo.loginTimestamp + sessionTimeout) {
+					// Log timeout
+					System.out.println("Session for user: " + authInfo.username
+							+ " expired. Logging out");
+					logOutUser(key);
 
-				break;
+					break;
+				}
 			}
 		}
+
 	}
 
 	private class SessionTimer extends Thread {

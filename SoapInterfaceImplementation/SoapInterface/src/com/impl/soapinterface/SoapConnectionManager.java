@@ -1,11 +1,15 @@
 package com.impl.soapinterface;
 import java.util.Date;
+import java.util.HashMap;
 
 import com.impl.soapinterface.responses.ResponseBool;
+import com.impl.soapinterface.responses.ResponseDictionary;
 import com.impl.soapinterface.responses.ResponseInt;
 import com.impl.soapinterface.responses.ResponseLogin;
 import com.impl.soapinterface.responses.ResponseString;
+import com.impl.soapinterface.responses.ResponseStringArray;
 import com.impl.soapinterface.responses.ResponseStringStringMap;
+import com.impl.soapinterface.responses.ResponseBase;
 import com.impl.soapinterface.responses.ResponseBase.ERROR_CODES;
 
 public class SoapConnectionManager {
@@ -68,7 +72,7 @@ public class SoapConnectionManager {
 				// Smth failed during login. TODO: Check when this can happen
 				System.out.println("Unexpected Login Error");
 				resp = new ResponseLogin();
-				resp.setErrorCode(ERROR_CODES.DUMMY);
+				resp.setErrorCode(ERROR_CODES.UnknownError);
 			}
 		} else {
 			// User is not present in DB
@@ -81,11 +85,11 @@ public class SoapConnectionManager {
 
 	private boolean checkIfUserExists(String username, String password) {
 		/* TODO: Check if User is valid in DB */
-
+		//Todo DB
 		if (username.equals("Hello") && password.equals("World"))
 			return true;
 
-		return false;
+		return true;
 	}
 
 	public ResponseStringStringMap getClasses(String authMD5){
@@ -139,7 +143,7 @@ public class SoapConnectionManager {
 
 		//Todo DB
 		if (userAuth.checkAthentification(authMD5, 0, resp)) {
-			String studentName = StudentData.getStudentName(studentID);
+			String studentName = StudentData.getStudentFirstName(studentID) + " " + StudentData.getStudentLastName(studentID);
 			
 			resp.setValue(studentName);
 		}
@@ -150,7 +154,7 @@ public class SoapConnectionManager {
 	public ResponseString getStudentClassId(String authMD5, int studentID){
 		ResponseString resp = new ResponseString();
 
-		//Todo DB
+
 		if (userAuth.checkAthentification(authMD5, 0, resp)) {
 			Integer classId = StudentData.getStudentClass(studentID);
 			
@@ -165,4 +169,49 @@ public class SoapConnectionManager {
 	
 		return resp;
 	}
+	
+	public ResponseInt addStudent(
+			String authMD5,	
+			String firstName, 
+			String lastName, 
+			String birthdate, 
+			//int contactId, 
+			int classId, 
+			String email, 
+			String phoneNumber, 
+			String adress,
+			String gender
+			){
+		
+		ResponseInt resp = new ResponseInt();
+		
+		if (userAuth.checkAthentification(authMD5, 0, resp)) {
+			Date parsedBirthdate = new Date(0);
+			
+			StudentData.addStudent(firstName, lastName, parsedBirthdate, classId, email, phoneNumber, gender);
+			
+			resp.setValue(1337);
+		}
+		
+		return resp;
+	}
+	
+	public ResponseStringArray getStudentAbsents(String authMD5, int studentId){
+		
+		ResponseStringArray resp = new ResponseStringArray();
+		if (userAuth.checkAthentification(authMD5, 0, resp)) {
+			String[] absents = new String[6];
+			absents[0] = "0";
+			absents[1] = "1";
+			absents[2] = "2";
+			absents[3] = "3";
+			absents[4] = "4";
+			absents[5] = "5";
+			
+			resp.setValue(absents);
+		}
+		
+		return resp;
+		
+	}	
 }
