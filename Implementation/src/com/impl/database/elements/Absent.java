@@ -19,7 +19,7 @@ import javax.persistence.Table;
  *
  */
 @Entity
-@Table(name = "ABSENT")
+@Table(name = "absent")
 public class Absent implements Serializable {
 	/**
 	 * 

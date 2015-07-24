@@ -7,14 +7,16 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
@@ -22,7 +24,7 @@ import javax.persistence.Table;
  *
  */
 @Entity
-@Table(name = "CLASS")
+@Table(name = "class")
 public class Class implements Serializable {
 	/**
 	 * 
@@ -35,11 +37,13 @@ public class Class implements Serializable {
 	protected int class_id;
 	@Column(name = "name")
 	protected String name;
+	@Column(name = "year")
+	protected int year;
 	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "classes")
-	private Set<Student> students = new HashSet<Student>();
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "user_id", nullable = false)
-	protected Student user;
+	protected Set<Student> students = new HashSet<Student>();
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "_class")
+	protected Set<ClassUser> classUsers = new HashSet<ClassUser>();
+
 	public Class() {
 	}
 
@@ -65,6 +69,22 @@ public class Class implements Serializable {
 
 	public void setStudents(Set<Student> students) {
 		this.students = students;
+	}
+
+	public int getYear() {
+		return year;
+	}
+
+	public void setYear(int year) {
+		this.year = year;
+	}
+
+	public Set<ClassUser> getClassUsers() {
+		return classUsers;
+	}
+
+	public void setClassUsers(Set<ClassUser> classUsers) {
+		this.classUsers = classUsers;
 	}
 	
 }

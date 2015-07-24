@@ -20,7 +20,7 @@ import javax.persistence.Table;
  *
  */
 @Entity
-@Table(name = "PARENT")
+@Table(name = "parent")
 public class Parent implements Serializable {
 	/**
 	 * 
@@ -31,17 +31,20 @@ public class Parent implements Serializable {
 	// (generator = "increment")
 	@Column(name = "parent_id")
 	protected int parent_id;
-	@Column(name = "name", nullable = false)
-	protected String name;
-	
-	@Column(name = "email")
+	@Column(name = "fisrtName", nullable = false)
+	protected String firstName;
+	@Column(name = "lastName", nullable = false)
+	protected String lastName;
+	@Column(name = "eMail")
 	protected String eMail;
 	@Column(name = "phone_number")
 	protected String phoneNumber;
 	@Column(name = "address")
 	protected String address;
+	@Column(name = "gender")
+	protected String gender;
 	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "parents")
-	private Set<Student> students = new HashSet<Student>();
+	protected Set<Student> students = new HashSet<Student>();
 
 	public Parent() {
 	}
@@ -62,15 +65,30 @@ public class Parent implements Serializable {
 		this.parent_id = parents_id;
 	}
 
-	public String getName() {
-		return name;
+
+	public String getFirstName() {
+		return firstName;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
 	}
 
-	
+	public String getLastName() {
+		return lastName;
+	}
+
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+
+	public String getGender() {
+		return gender;
+	}
+
+	public void setGender(String gender) {
+		this.gender = gender;
+	}
 
 	public String geteMail() {
 		return eMail;

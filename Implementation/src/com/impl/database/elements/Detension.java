@@ -1,6 +1,7 @@
 package com.impl.database.elements;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,30 +11,34 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
 /**
  * @author kuslu
  */
 @Entity
-@Table(name = "DETENSION")
+@Table(name = "detension")
 public class Detension implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue  //(generator = "increment")
+	@GeneratedValue
+	// (generator = "increment")
 	@Column(name = "detention_id", unique = true, nullable = false)
 	protected int detention_id;
-
 	@Column(name = "detention_from", nullable = false)
 	protected String detention_from;
 	@Column(name = "detention_to")
 	protected String detention_to;
 	@Column(name = "supervisor")
 	protected String supervisor;
+	@Column(name = "date", nullable = false)
+	protected Date date;
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "student_id", nullable = false)
 	protected Student student;
-	
-	public Detension(){}
+
+	public Detension() {
+	}
 
 	public int getDetention_id() {
 		return detention_id;
@@ -74,7 +79,13 @@ public class Detension implements Serializable {
 	public void setStudent(Student student) {
 		this.student = student;
 	}
-	
-	
-	
+
+	public Date getDate() {
+		return date;
+	}
+
+	public void setDate(Date date) {
+		this.date = date;
+	}
+
 }
