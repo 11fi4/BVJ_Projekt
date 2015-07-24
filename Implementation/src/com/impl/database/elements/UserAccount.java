@@ -17,35 +17,38 @@ import javax.persistence.Table;
  *
  */
 @Entity
-@Table(name = "user")
-public class User implements Serializable {
+@Table(name = "userAccount")
+public class UserAccount implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue
 	// (generator = "increment")
-	@Column(name = "user_id", unique = true, nullable = false)
-	protected int user_id;
+	@Column(name = "userAccount_id", unique = true, nullable = false)
+	protected int userAccount_id;
 	@Column(name = "name", nullable = false)
 	protected String name;
 	@Column(name = "username")
 	protected String username;
 	@Column(name = "password")
 	protected String password;
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "userAccount")
 	protected Set<ClassUser> classUsers = new HashSet<ClassUser>();
 
-	public User() {
+	public UserAccount() {
 	}
 
-	public int getUser_id() {
-		return user_id;
+	
+	public int getUserAccount_id() {
+		return userAccount_id;
 	}
 
-	public void setUser_id(int user_id) {
-		this.user_id = user_id;
+
+	public void setUserAccount_id(int userAccount_id) {
+		this.userAccount_id = userAccount_id;
 	}
+
 
 	public String getName() {
 		return name;

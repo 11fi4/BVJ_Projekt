@@ -19,6 +19,7 @@ import com.impl.database.connection.DBConnectionManager;
 import com.impl.database.connection.DBConnectionManagerImpl;
 import com.impl.database.elements.Parent;
 import com.impl.database.elements.Student;
+import com.impl.database.elements.UserAccount;
 
 /**
  * @author kuslu
@@ -131,6 +132,12 @@ public class TestApplication extends DBConnectionManagerImpl {
 		 parents.removeAll(parents);
 		 }
 
+		 UserAccount user = new UserAccount();
+		 user.setName("user1");
+		 user.setUsername("bla");
+		 user.setPassword("pass");
+		 connectionManager.insert(user);
+		 
 //		// create citeria to get student steinam33
 //		Session session = connectionManager.getSessionFactory().openSession();
 //

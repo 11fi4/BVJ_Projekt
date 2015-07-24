@@ -32,8 +32,8 @@ public class ClassUser implements Serializable {
 	@JoinColumn(name = "class_id", nullable = false)
 	protected Class _class;
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "user_id", nullable = false)
-	protected User user;
+	@JoinColumn(name = "userAccount_id", nullable = false)
+	protected UserAccount userAccount;
 	@OneToOne(fetch = FetchType.LAZY, mappedBy = "classUser", cascade = CascadeType.ALL)
 	protected Role role;
 
@@ -56,12 +56,12 @@ public class ClassUser implements Serializable {
 		this._class = _class;
 	}
 
-	public User getUser() {
-		return user;
+	public UserAccount getUserAccount() {
+		return userAccount;
 	}
 
-	public void setUser(User user) {
-		this.user = user;
+	public void setUserAccount(UserAccount userAccount) {
+		this.userAccount = userAccount;
 	}
 
 	public Role getRole() {
