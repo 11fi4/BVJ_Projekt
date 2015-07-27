@@ -7,9 +7,11 @@ public class ResponseBase implements Serializable {
 
 	public enum ERROR_CODES {
 		UserNotInDB(1), 
-		DUMMY(2), 
+		InsertionError(2), 
 		UserNotLoggedIn(3),
-		UserLacksPermission(4);
+		UserLacksPermission(4),
+		UnknownError(999);
+		
 		
 		int code = -10;
 		private ERROR_CODES(int _code){

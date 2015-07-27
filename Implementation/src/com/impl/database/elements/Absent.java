@@ -33,7 +33,7 @@ public class Absent implements Serializable {
 	@Column(name = "absent_from")
 	protected String absent_from;
 	@Column(name = "absent_to")
-	protected int absent_to;
+	protected String absent_to;
 	@Column(name = "medicalCertificate")
 	protected String medicalCertificate;
 	@Column(name = "excused")
@@ -63,11 +63,11 @@ public class Absent implements Serializable {
 		this.absent_from = absent_from;
 	}
 
-	public int getAbsent_to() {
+	public String getAbsent_to() {
 		return absent_to;
 	}
 
-	public void setAbsent_to(int absent_to) {
+	public void setAbsent_to(String absent_to) {
 		this.absent_to = absent_to;
 	}
 

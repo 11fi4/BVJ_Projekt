@@ -21,4 +21,6 @@ public interface DBConnectionManager {
 	public Object get(Class clazz, Object object);
 
 	public SessionFactory getSessionFactory();
+	
+	public void createHQLQuery(String query);
 }
