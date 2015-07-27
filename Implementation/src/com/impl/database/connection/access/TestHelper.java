@@ -20,11 +20,17 @@ public class TestHelper {
 	public static void main(String[] args) {
 		DBAccessImpl impl = new DBAccessImpl();
 
-		fillDB();
+//		fillDB();
 		
-		UserAccount userAccount = impl.getUser("username", "12345678");
+//		UserAccount userAccount = impl.getUser("username", "12345678");
 		
-		System.out.println(userAccount.getName());
+//		System.out.println(userAccount.getName());
+		
+		impl.setUser("Matthias", "Hubner", "username", "password");
+		
+		UserAccount mattAccount = impl.getUser("username", "password");
+		
+		System.out.println(mattAccount.getName());
 	}
 
 	public synchronized static void fillDB() {
