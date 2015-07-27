@@ -72,7 +72,10 @@ public class PublishingController {
 			}
 
 		} catch (Exception ex) {
-			// TODO implement logging
+			String message = String
+					.format("An error occured while Publishing an '{0}'(documentType) for '{1}'(format)",
+							type.toString(), format.toString());
+			LoggingWrapper.LogError(message, ex);
 		}
 	}
 
