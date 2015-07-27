@@ -1,11 +1,13 @@
 package com.impl.report.word;
 
 import java.nio.file.Path;
-import java.util.logging.Logger;
 import java.util.logging.Level;
+import java.util.logging.Logger;
 
+import com.impl.report.DocumentType;
+import com.impl.report.Formats;
+import com.impl.report.PublisherBase;
 import com.impl.report.FillForm.DocxFillForm;
-import com.impl.report.*;
 
 public class WordPublisher extends PublisherBase {
 
@@ -17,12 +19,13 @@ public class WordPublisher extends PublisherBase {
 	public void Publish(String inputFile, String outputFile) {
 
 		try {
-			DocxFillForm form = new DocxFillForm();
+			//TODO get parameters by Configuration
+			DocxFillForm form = new DocxFillForm(true, "T:\\");
 			form.CreateNewDocx(this.GetDocumentType());
 		} catch (Exception ex) {
 			Logger log = Logger.getGlobal();
 			if (log != null) {
-				// TODO get better message string from exception
+				// TODO get better message string from exception, write LoggingHelper in ReportPackage, called LoggingHelper
 				String message = ex.toString();
 				log.log(Level.WARNING, message);
 			}

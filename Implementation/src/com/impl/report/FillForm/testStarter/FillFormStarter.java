@@ -11,8 +11,8 @@ public class FillFormStarter {
 	 * @throws Exception
 	 */
 	public static void main(String[] args) throws Exception {
-		new DocxFillForm().CreateNewDocx(DocumentType.Attest);
-		new DocxFillForm().CreateNewDocx(DocumentType.Verweis);
+		new DocxFillForm(true, "T:\\").CreateNewDocx(DocumentType.Attest);
+		new DocxFillForm(true, "T:\\").CreateNewDocx(DocumentType.Verweis);
 	}
 
 }

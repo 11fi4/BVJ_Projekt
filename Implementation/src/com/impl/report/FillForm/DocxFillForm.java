@@ -18,9 +18,22 @@ import com.impl.report.DocumentType;
 /** Fills out the form of a given PDF and saves it to a new file */
 public class DocxFillForm {
 
-	// TODO make this configurable
-	final String PATH = "T:\\";
-	private final boolean debug = true;
+	// default values for testing
+	private String _path = "T:\\";
+	private boolean _debug = true;
+
+	/**
+	 * Creates a new DocXFillForm instance
+	 * 
+	 * @param Debug
+	 *            Defines if the debug-switch is on
+	 * @param path
+	 *            The path for output and templates
+	 */
+	public DocxFillForm(boolean Debug, String path) {
+		this._path = path;
+		this._debug = Debug;
+	}
 
 	/** Generates text table for a FormType */
 	private Hashtable<String, String> Generate_Table(DocumentType type) {
@@ -31,7 +44,7 @@ public class DocxFillForm {
 			return Generate_Attest_Table();
 
 		default:
-			return null;
+			return new Hashtable<String, String>();
 		}
 	}
 
@@ -147,19 +160,14 @@ public class DocxFillForm {
 	private String GetPath(DocumentType type, boolean in) throws Exception {
 		switch (type) {
 
-		// TODO make these to cases generic
-
+		case Attest:
 		case Verweis:
 			if (in)
-				return this.PATH + "Bericht.docx";
+				return this._path + "Bericht.docx";
 			else
-				return this.PATH + "Repo_Vorlage_Verweis_filled.docx";
-
-		case Attest:
-			if (in)
-				return this.PATH + "Bericht.docx";
-			else
-				return this.PATH + "Repo_Vorlage_Attest_filled.docx";
+				return this._path
+						+ String.format("Repo_Vorlage_{0}_filled.docx",
+								type.toString());
 
 		default:
 			String message = String.format(
@@ -189,10 +197,11 @@ public class DocxFillForm {
 		FileOutputStream fileout = new FileOutputStream(OUTPUT);
 
 		doc.write(fileout);
+
 		fileout.flush();
 		fileout.close();
 
-		if (debug)
+		if (_debug)
 			System.out.println("Output: '" + OUTPUT + "'");
 	}
 
