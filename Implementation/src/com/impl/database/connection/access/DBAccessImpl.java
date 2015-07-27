@@ -19,13 +19,14 @@ import com.impl.database.elements.UserAccount;
 import com.impl.database.elements.Warning;
 
 public class DBAccessImpl implements DBAccess {
-	public DBAccessImpl() {
-		DBConnectionManager connectionManager = new DBConnectionManagerImpl();
-		// create citeria to get student steinam33
-		session = connectionManager.getSessionFactory().openSession();
-	}
-
+	private DBConnectionManager dbConnectionManager = null;
 	private Session session;
+	
+	public DBAccessImpl() {
+		dbConnectionManager = new DBConnectionManagerImpl();
+		// create citeria to get student steinam33
+		session = dbConnectionManager.getSessionFactory().openSession();
+	}
 
 	@Override
 	public List<Student> getAllStudentsInClass(String className) {
@@ -153,14 +154,13 @@ public class DBAccessImpl implements DBAccess {
 	
 	@Override
 	public void setUser(String firstName, String lastName, String username, String password) {
-		DBConnectionManager connectionManager = new DBConnectionManagerImpl();
-		
+				
 		UserAccount userAcc = new UserAccount();
 		userAcc.setName(firstName + " " + lastName);
 		userAcc.setPassword(password);
 		userAcc.setUsername(username);
 		
-		connectionManager.insert(userAcc);
+		dbConnectionManager.insert(userAcc);
 	}
 
 }
