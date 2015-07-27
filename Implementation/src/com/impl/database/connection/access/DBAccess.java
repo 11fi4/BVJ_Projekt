@@ -28,4 +28,6 @@ public interface DBAccess {
 	public List<Parent> getStudentParents(String studentId);
 	
 	public List<Warning> getStudentWarnings(String studentId);
+	
+	public void setUser(String firstName, String lastName, String username, String password);
 }
