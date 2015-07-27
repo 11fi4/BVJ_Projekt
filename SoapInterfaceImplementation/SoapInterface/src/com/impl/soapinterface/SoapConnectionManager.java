@@ -3,19 +3,20 @@ import java.util.Date;
 import java.util.HashMap;
 
 import com.impl.soapinterface.responses.ResponseBool;
-import com.impl.soapinterface.responses.ResponseDictionary;
 import com.impl.soapinterface.responses.ResponseInt;
 import com.impl.soapinterface.responses.ResponseLogin;
 import com.impl.soapinterface.responses.ResponseString;
 import com.impl.soapinterface.responses.ResponseStringArray;
 import com.impl.soapinterface.responses.ResponseStringStringMap;
+import com.impl.database.connection.access.DBAccess;
+import com.impl.database.connection.access.DBAccessImpl;
 import com.impl.soapinterface.responses.ResponseBase;
 import com.impl.soapinterface.responses.ResponseBase.ERROR_CODES;
 
 public class SoapConnectionManager {
 
 	private static UserAuthentification userAuth;
-
+	public static DBAccess dbAccess;
 	static boolean isInitialized = false;
 
 	// Dummy return
@@ -27,7 +28,6 @@ public class SoapConnectionManager {
 			if (userAuth.checkAthentification(authMD5, 0, resp)) {
 				resp.setValue(5);
 			}
-
 			return resp;
 		}
 	
@@ -35,6 +35,9 @@ public class SoapConnectionManager {
 		if (!isInitialized) {
 			System.out.println("Initialising new Server session");
 			userAuth = new UserAuthentification();
+			
+			dbAccess = new DBAccessImpl();
+			
 			isInitialized = true;
 		}
 	}
@@ -56,7 +59,7 @@ public class SoapConnectionManager {
 		System.out.println("Login Attempt, user / pass: " + username + ", "
 				+ password);
 
-		if (checkIfUserExists(username, password)) {
+		if (userAuth.checkIfUserExists(username, password)) {
 			// User is present in DB
 
 			// Generate md5 with user, password and current time in ms
@@ -83,14 +86,7 @@ public class SoapConnectionManager {
 		return resp;
 	}
 
-	private boolean checkIfUserExists(String username, String password) {
-		/* TODO: Check if User is valid in DB */
-		//Todo DB
-		if (username.equals("Hello") && password.equals("World"))
-			return true;
 
-		return true;
-	}
 
 	public ResponseStringStringMap getClasses(String authMD5){
 		ResponseStringStringMap resp = new ResponseStringStringMap();
@@ -214,4 +210,24 @@ public class SoapConnectionManager {
 		return resp;
 		
 	}	
+	
+	public ResponseInt addUser(
+			String authMD5,	
+			String firstName, 
+			String lastName, 
+			Integer permissionId,
+			String username,
+			String password
+			){
+		
+		ResponseInt resp = new ResponseInt();
+		
+		if (userAuth.checkAthentification(authMD5, 0, resp)) {			
+			UserData.addUser(firstName, lastName, permissionId, username, password);
+			
+			resp.setValue(1337);
+		}
+		
+		return resp;
+	}
 }

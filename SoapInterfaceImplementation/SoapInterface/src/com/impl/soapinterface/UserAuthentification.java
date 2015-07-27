@@ -3,6 +3,8 @@ package com.impl.soapinterface;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+
+import com.impl.database.connection.access.DBAccessImpl;
 import com.impl.soapinterface.responses.ResponseBase;
 import com.impl.soapinterface.responses.ResponseBase.ERROR_CODES;
 
@@ -96,9 +98,18 @@ public class UserAuthentification {
 		}
 	}
 
+	public boolean checkIfUserExists(String username, String password) {		
+		if(SoapConnectionManager.dbAccess.getUser(username, password) != null){
+			System.out.println("User is really valid in DB");
+			return true;
+		}
+		
+		return true;
+	}
+	
 	public boolean authenticateUser(String username, String md5) {
 		// Get if the user is already logged in.
-		// If the username is not fround, the return string will be "";
+		// If the username is not found, the return string will be "";
 		String md5ForLoggedinUsername = getMD5forUsername(username);
 
 		if (md5ForLoggedinUsername.equals("")) {
