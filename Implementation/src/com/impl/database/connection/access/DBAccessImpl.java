@@ -150,5 +150,17 @@ public class DBAccessImpl implements DBAccess {
 		});
 		return list;
 	}
+	
+	@Override
+	public void setUser(String firstName, String lastName, String username, String password) {
+		DBConnectionManager connectionManager = new DBConnectionManagerImpl();
+		
+		UserAccount userAcc = new UserAccount();
+		userAcc.setName(firstName + " " + lastName);
+		userAcc.setPassword(password);
+		userAcc.setUsername(username);
+		
+		connectionManager.insert(userAcc);
+	}
 
 }
