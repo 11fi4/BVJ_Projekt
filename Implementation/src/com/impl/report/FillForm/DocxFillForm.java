@@ -17,6 +17,8 @@ import com.impl.report.DocumentType;
 
 /** Fills out the form of a given PDF and saves it to a new file */
 public class DocxFillForm {
+
+	// TODO make this configurable
 	final String PATH = "T:\\";
 	private final boolean debug = true;
 
@@ -137,21 +139,33 @@ public class DocxFillForm {
 	 * Returns the input (in:true) or output (in:false) path for a formType
 	 * IMPORTANT: Input file must be PDF version 1.4 (set Acrobat DC 5.0
 	 * Compatibility)!
+	 * 
+	 * @throws Exception
+	 *             Throws exception if no path-creation is implemented for the
+	 *             given DocumentType
 	 */
-	private String GetPath(DocumentType type, boolean in) {
+	private String GetPath(DocumentType type, boolean in) throws Exception {
 		switch (type) {
+
+		// TODO make these to cases generic
+
 		case Verweis:
 			if (in)
-				return PATH + "Bericht.docx";
+				return this.PATH + "Bericht.docx";
 			else
-				return PATH + "Repo_Vorlage_Verweis_filled.docx";
+				return this.PATH + "Repo_Vorlage_Verweis_filled.docx";
+
 		case Attest:
 			if (in)
-				return PATH + "Bericht.docx";
+				return this.PATH + "Bericht.docx";
 			else
-				return PATH + "Repo_Vorlage_Attest_filled.docx";
+				return this.PATH + "Repo_Vorlage_Attest_filled.docx";
+
 		default:
-			return null;
+			String message = String.format(
+					"No path is implemented for DocumentType '{0}'",
+					type.toString());
+			throw new Exception(message);
 		}
 	}
 
@@ -159,31 +173,27 @@ public class DocxFillForm {
 	 * Fills forms of a given PDF and saves it to a new file. Note: Input file
 	 * must be a PDF 1.4 (set Acrobat DC 5.0 Compatibility)!
 	 */
-	public void CreateNewDocx(DocumentType type) {
-		try {
-			String INPUT = GetPath(type, true);
-			String OUTPUT = GetPath(type, false);
+	public void CreateNewDocx(DocumentType type) throws Exception {
+		String INPUT = GetPath(type, true);
+		String OUTPUT = GetPath(type, false);
 
-			XWPFDocument doc = new XWPFDocument(OPCPackage.open(INPUT));
+		XWPFDocument doc = new XWPFDocument(OPCPackage.open(INPUT));
 
-			Hashtable<String, String> elementHT = Generate_Table(type);
-			Enumeration<String> elementKeys = elementHT.keys();
-			while (elementKeys.hasMoreElements()) {
-				String key = (String) elementKeys.nextElement();
-				FillFormField(doc, key, elementHT.get(key).toString());
-			}
-
-			FileOutputStream fileout = new FileOutputStream(OUTPUT);
-
-			doc.write(fileout);
-			fileout.flush();
-			fileout.close();
-
-			if (debug)
-				System.out.println("Output: '" + OUTPUT + "'");
-		} catch (Exception e) {
-			e.printStackTrace();
+		Hashtable<String, String> elementHT = Generate_Table(type);
+		Enumeration<String> elementKeys = elementHT.keys();
+		while (elementKeys.hasMoreElements()) {
+			String key = (String) elementKeys.nextElement();
+			FillFormField(doc, key, elementHT.get(key).toString());
 		}
+
+		FileOutputStream fileout = new FileOutputStream(OUTPUT);
+
+		doc.write(fileout);
+		fileout.flush();
+		fileout.close();
+
+		if (debug)
+			System.out.println("Output: '" + OUTPUT + "'");
 	}
 
 }
