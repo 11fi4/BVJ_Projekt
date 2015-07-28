@@ -32,7 +32,7 @@ public class XmlHelper {
 	 *             Accessed
 	 */
 	public static boolean ValidateDocument(String xmlFilePath,
-			String xdfFilePath) throws Exception {
+			String xdfFilePath) {
 
 		// nur eine fassaden-funktion
 		File xmlFile = new File(xmlFilePath);
@@ -82,17 +82,23 @@ public class XmlHelper {
 	 * @throws IOException
 	 *             Is thrown when writing failed (f.ex insufficent privilges)
 	 */
-	public static void WriteXmlToFile(String xml, String path)
-			throws IOException {
+	public static boolean WriteXmlToFile(String xml, String path) {
 
-		BufferedWriter out = new BufferedWriter(new FileWriter(path));
+		BufferedWriter out = null;
 
 		// dispose buffer
 		try {
+			out = new BufferedWriter(new FileWriter(path));
 			out.write(xml);
-		} finally {
-			out.close();
+			return true;
 		}
+		finally {
+			if (out != null) {
+				out.close();
+			}
+		}
+		
+		return false;
 
 	}
 

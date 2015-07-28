@@ -11,14 +11,20 @@ public class LoggingWrapper {
 	public static void LogError(String message, Exception ex) {
 		if (ex != null) {
 			String newMess = message + ConvertExceptionToString(ex);
-			LogError(newMess);
+			LogMessage(Level.ERROR, newMess);
 		} else {
-			LogError(message);
+			LogMessage(Level.ERROR, message);
 		}
 	}
 
-	public static void LogError(String message) {
-		LogMessage(Level.ERROR, message);
+	public static void LogWarning(String message, Exception ex) {
+		String mess = message;
+
+		if (ex != null) {
+			mess += ConvertExceptionToString(ex);
+		}
+
+		LogMessage(Level.WARN, mess);
 	}
 
 	private static void LogMessage(Level lvl, String message) {
