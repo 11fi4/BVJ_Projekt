@@ -38,37 +38,39 @@ public class PublishingController {
 				Configuration.Initialise();
 			}
 
-			Path tempDir = getTempDirectory();
+			// check if initialization succeed
+			if (Configuration.IsInitialized()) {
 
-			// set up pblisher
-			PublisherBase publisher = createPublisher(format, type, tempDir);
-			AddOptionalComponents(publisher);
+				Path tempDir = getTempDirectory();
 
-			// if directory exists -> create new
-			while (Files.exists(tempDir, LinkOption.NOFOLLOW_LINKS)) {
-				tempDir = getTempDirectory();
-			}
+				// set up pblisher
+				PublisherBase publisher = createPublisher(format, type, tempDir);
+				AddOptionalComponents(publisher);
 
-			// create JSOnObject from String
-			JSONObject json = new JSONObject(inputParams);
+				// if directory exists -> create new
+				while (Files.exists(tempDir, LinkOption.NOFOLLOW_LINKS)) {
+					tempDir = getTempDirectory();
+				}
 
-			// validate
-			if (JsonHelper.Validate(json)) {
+				// create JSOnObject from String
+				JSONObject json = new JSONObject(inputParams);
 
-				String inputXml = JsonHelper.ConvertToXml(json);
-				String inputXmlPath = Paths.get(
-						tempDir.getFileName().toString(), "input.xml")
-						.toString();
+				// validate
+				if (JsonHelper.Validate(json)) {
 
-				XmlHelper.WriteXmlToFile(inputXml, inputXmlPath);
+					String inputXml = JsonHelper.ConvertToXml(json);
+					String inputXmlPath = Paths.get(
+							tempDir.getFileName().toString(), "input.xml")
+							.toString();
 
-				String outputPath = IoHelper.getOutputPath(tempDir, format);
+					XmlHelper.WriteXmlToFile(inputXml, inputXmlPath);
 
-				IoHelper.EnsureDirctory(tempDir);
+					String outputPath = IoHelper.getOutputPath(tempDir, format);
 
-				publisher.Publish(inputXmlPath, outputPath);
-			} else {
-				// TODO throw exception with good message
+					IoHelper.EnsureDirctory(tempDir);
+
+					publisher.Publish(inputXmlPath, outputPath);
+				}
 			}
 
 		} catch (Exception ex) {

@@ -4,7 +4,6 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.logging.Logger;
 
 import javax.xml.XMLConstants;
 import javax.xml.transform.stream.StreamSource;
@@ -34,8 +33,8 @@ public class XmlHelper {
 	 */
 	public static boolean ValidateDocument(String xmlFilePath,
 			String xdfFilePath) throws Exception {
-		
-		//nur eine fassaden-funktion
+
+		// nur eine fassaden-funktion
 		File xmlFile = new File(xmlFilePath);
 		File xsdFile = new File(xdfFilePath);
 
@@ -52,8 +51,7 @@ public class XmlHelper {
 	 *             Exception is thrown if file is not valid or file can't be
 	 *             Accessed
 	 */
-	public static boolean ValidateDocument(File xmlFile, File xsdFile)
-			throws Exception {
+	public static boolean ValidateDocument(File xmlFile, File xsdFile) {
 
 		try {
 			SchemaFactory factory = SchemaFactory
@@ -64,11 +62,10 @@ public class XmlHelper {
 			return true;
 		} catch (Exception ex) {
 
-			// log exception as warning
-			Logger log = Logger.getGlobal();
-			String message = ex.getMessage();
-			// TODO find solution to get stacktrace as single String
-			log.warning(message);
+			String mess = String
+					.format("An error occured while validating '{0}' against shema '{1}'",
+							xmlFile.getName(), xsdFile.getName());
+			LoggingWrapper.LogError(mess, ex);
 
 			// return false because something failed
 			return false;
