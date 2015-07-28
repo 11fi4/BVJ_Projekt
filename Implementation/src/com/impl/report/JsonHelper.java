@@ -48,7 +48,8 @@ public class JsonHelper {
 			return true;
 
 		} catch (Exception ex) {
-			// TODO log exception
+			String mess = "An error occured while validation JSONObject";
+			LoggingWrapper.LogError(mess, ex);
 			return false;
 		}
 
