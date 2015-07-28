@@ -1,5 +1,6 @@
 package com.impl.database.connection.access;
 
+import java.util.Date;
 import java.util.List;
 
 import com.impl.database.elements.Absent;
@@ -12,22 +13,29 @@ import com.impl.database.elements.Warning;
 
 public interface DBAccess {
 	
-	public List<Student> getAllStudentsInClass(String className);
+	public List<Student> requestAllStudentsInClass(String className);
 	
-	public Student getStudentByName(String className, String studentName);
+	public List<Student> requestStudentByName(String firstName, String lastName);
+
+	public List<Student> requestStudentByName(String firstName, String lastName, String classId);
 	
-	public UserAccount getUser(String username, String password);
+	public UserAccount requestUser(String username, String password);
 	
-	public List<Absent> getStudentAbsents(String studentId);
+	public List<Absent> requestStudentAbsents(String studentId);
 	
 	// Detension should be Detention
-	public List<Detension> getStudentDetensions(String studentId);
+	public List<Detension> requestStudentDetensions(String studentId);
 	
-	public List<Comment> getStudentComments(String studentId);
+	public List<Comment> requestStudentComments(String studentId);
 	
-	public List<Parent> getStudentParents(String studentId);
+	public List<Parent> requestStudentParents(String studentId);
 	
-	public List<Warning> getStudentWarnings(String studentId);
+	public List<Warning> requestStudentWarnings(String studentId);
 	
-	public void setUser(String firstName, String lastName, String username, String password);
+	public void insertUser(String firstName, String lastName, String username, String password);
+	
+	public void addUserRole(String userId, String roleId);
+	
+	public void insertStudent(String firstName, String lastName, Date birthdate, String phone, String eMail,
+			String address, String gender);
 }

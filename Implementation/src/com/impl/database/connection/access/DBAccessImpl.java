@@ -1,6 +1,7 @@
 package com.impl.database.connection.access;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.hibernate.Criteria;
@@ -29,7 +30,7 @@ public class DBAccessImpl implements DBAccess {
 	}
 
 	@Override
-	public List<Student> getAllStudentsInClass(String className) {
+	public List<Student> requestAllStudentsInClass(String className) {
 		// first test implementation - not final
 		Transaction tx = session.beginTransaction();
 
@@ -43,19 +44,37 @@ public class DBAccessImpl implements DBAccess {
 	}
 
 	@Override
-	public Student getStudentByName(String className, String studentName) {
+	public List<Student> requestStudentByName(String firstName, String lastName) {
 		// first test implementation - not final
 
 		Transaction tx = session.beginTransaction();
 
 		Criteria criteria = session.createCriteria(Student.class)
-				.add(Restrictions.eq("name", studentName))
-				.add(Restrictions.eq("class", className));
+				.add(Restrictions.eq("firstName", firstName))
+				.add(Restrictions.eq("lastName", lastName));
 
-		criteria.setMaxResults(1);
-		Student student = (Student) criteria.list().get(0);
+		List<Student> list = new ArrayList<Student>();
+		criteria.list().forEach((instance) -> {
+			list.add((Student) instance);
+		});
+		return list;
+	}
+	
+	@Override
+	public List<Student> requestStudentByName(String firstName, String lastName, String classId) {
+		Transaction tx = session.beginTransaction();
 
-		return student;
+		Criteria criteria = session.createCriteria(Student.class)
+				.add(Restrictions.eq("firstName", firstName))
+				.add(Restrictions.eq("lastName", lastName));
+		
+		// todo: add filter for class
+		
+		List<Student> list = new ArrayList<Student>();
+		criteria.list().forEach((instance) -> {
+			list.add((Student) instance);
+		});
+		return list;
 	}
 
 	// public List<Student> getClassByName(String className) {
@@ -67,7 +86,7 @@ public class DBAccessImpl implements DBAccess {
 	// }
 
 	@Override
-	public UserAccount getUser(String username, String password) {
+	public UserAccount requestUser(String username, String password) {
 		Transaction tx = session.beginTransaction();
 
 		Criteria criteria = session.createCriteria(UserAccount.class)
@@ -83,7 +102,7 @@ public class DBAccessImpl implements DBAccess {
 	}
 
 	@Override
-	public List<Absent> getStudentAbsents(String studentId) {
+	public List<Absent> requestStudentAbsents(String studentId) {
 		Transaction tx = session.beginTransaction();
 
 		Criteria criteria = session.createCriteria(Absent.class).add(
@@ -97,7 +116,7 @@ public class DBAccessImpl implements DBAccess {
 	}
 
 	@Override
-	public List<Detension> getStudentDetensions(String studentId) {
+	public List<Detension> requestStudentDetensions(String studentId) {
 		Transaction tx = session.beginTransaction();
 
 		Criteria criteria = session.createCriteria(Detension.class).add(
@@ -111,7 +130,7 @@ public class DBAccessImpl implements DBAccess {
 	}
 
 	@Override
-	public List<Comment> getStudentComments(String studentId) {
+	public List<Comment> requestStudentComments(String studentId) {
 		Transaction tx = session.beginTransaction();
 
 		Criteria criteria = session.createCriteria(Comment.class).add(
@@ -125,7 +144,7 @@ public class DBAccessImpl implements DBAccess {
 	}
 
 	@Override
-	public List<Parent> getStudentParents(String studentId) {
+	public List<Parent> requestStudentParents(String studentId) {
 		Transaction tx = session.beginTransaction();
 
 		Criteria criteria = session.createCriteria(Parent.class).add(
@@ -139,7 +158,7 @@ public class DBAccessImpl implements DBAccess {
 	}
 
 	@Override
-	public List<Warning> getStudentWarnings(String studentId) {
+	public List<Warning> requestStudentWarnings(String studentId) {
 		Transaction tx = session.beginTransaction();
 
 		Criteria criteria = session.createCriteria(Warning.class).add(
@@ -153,7 +172,7 @@ public class DBAccessImpl implements DBAccess {
 	}
 	
 	@Override
-	public void setUser(String firstName, String lastName, String username, String password) {
+	public void insertUser(String firstName, String lastName, String username, String password) {
 				
 		UserAccount userAcc = new UserAccount();
 		userAcc.setName(firstName + " " + lastName);
@@ -161,6 +180,28 @@ public class DBAccessImpl implements DBAccess {
 		userAcc.setUsername(username);
 		
 		dbConnectionManager.insert(userAcc);
+	}
+	
+	@Override
+	public void insertStudent(String firstName, String lastName, Date birthdate, String phone, String eMail,
+			String address, String gender) {
+		Student student = new Student();
+		student.setFirstName(firstName);
+		student.setLastName(lastName);
+		student.setBirthdate(birthdate);
+		student.setPhoneNumber(phone);
+		student.seteMail(eMail);
+		student.setAddress(address);
+		student.setGender(gender);
+		
+		
+		dbConnectionManager.insert(student);
+	}
+
+	@Override
+	public void addUserRole(String userId, String roleId) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

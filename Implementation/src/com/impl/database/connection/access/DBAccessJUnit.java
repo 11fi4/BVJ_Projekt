@@ -31,7 +31,7 @@ public class DBAccessJUnit {
 		expectedStudent.setAddress("Address");
 		expectedStudent.setBirthdate(new Date(1960, 1, 1));
 		
-		assertEquals("Expected user = Steinam", expectedStudent, accessImpl.getStudentByName("11fi4", "Steinam"));
+		assertEquals("Expected user = Steinam", expectedStudent, accessImpl.requestStudentByName("11fi4", "Steinam"));
 	}
 
 	@Test
@@ -41,7 +41,7 @@ public class DBAccessJUnit {
 		expectedStudent.setAddress("Address");
 		expectedStudent.setBirthdate(new Date(1960, 1, 1));
 		
-		assertEquals("Expected = not Steinam", expectedStudent, accessImpl.getStudentByName("11fi4", "Wallner"));
+		assertEquals("Expected = not Steinam", expectedStudent, accessImpl.requestStudentByName("11fi4", "Wallner"));
 	}
 	
 	@Test
@@ -56,17 +56,17 @@ public class DBAccessJUnit {
 			expectedStudentsList.add(expectedStudentInList);
 		}
 		
-		assertEquals("Expected = 10 Students in list", expectedStudentsList, accessImpl.getAllStudentsInClass("11fi4"));
+		assertEquals("Expected = 10 Students in list", expectedStudentsList, accessImpl.requestAllStudentsInClass("11fi4"));
 	}
 	
 	@Test
 	public void getZeroStudents() {
 		List<Student> expectedStudentsList = new ArrayList<Student>();
 		List<Student> testList = null;
-		testList = accessImpl.getAllStudentsInClass("0fi4");
+		testList = accessImpl.requestAllStudentsInClass("0fi4");
 		
 				
-		assertEquals("Expected = 0 Students in list", null, accessImpl.getAllStudentsInClass("0fi4"));
+		assertEquals("Expected = 0 Students in list", null, accessImpl.requestAllStudentsInClass("0fi4"));
 	}
 	
 	@Test
@@ -76,6 +76,6 @@ public class DBAccessJUnit {
 		Set<Class> classSet = new LinkedHashSet<Class>();
 //		expectedUser.setClasses(classSet);
 		
-		assertEquals("Expected user = Steinam", expectedUser, accessImpl.getUser("steinam", "12345678"));
+		assertEquals("Expected user = Steinam", expectedUser, accessImpl.requestUser("steinam", "12345678"));
 	}
 }
