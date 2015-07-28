@@ -99,12 +99,12 @@ public class UserAuthentification {
 	}
 
 	public boolean checkIfUserExists(String username, String password) {		
-		if(SoapConnectionManager.dbAccess.getUser(username, password) != null){
+		if(SoapConnectionManager.dbAccess.requestUser(username, password) != null){
 			System.out.println("User is really valid in DB");
 			return true;
 		}
 		
-		return true;
+		return false;
 	}
 	
 	public boolean authenticateUser(String username, String md5) {

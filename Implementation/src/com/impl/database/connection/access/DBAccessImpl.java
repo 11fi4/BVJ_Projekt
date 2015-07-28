@@ -98,6 +98,8 @@ public class DBAccessImpl implements DBAccess {
 			user = (UserAccount) criteria.list().get(0);
 		}
 
+		session.close();
+		
 		return user;
 	}
 

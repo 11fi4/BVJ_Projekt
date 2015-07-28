@@ -192,6 +192,10 @@ public class SoapConnectionManager {
 		return resp;
 	}
 	
+	public ResponseBase deleteStudent(Integer studentId){
+		return new ResponseBase();
+	}
+	
 	public ResponseStringArray getStudentAbsents(String authMD5, int studentId){
 		
 		ResponseStringArray resp = new ResponseStringArray();
@@ -222,10 +226,9 @@ public class SoapConnectionManager {
 		
 		ResponseInt resp = new ResponseInt();
 		
-		if (userAuth.checkAthentification(authMD5, 0, resp)) {			
+		if (userAuth.checkAthentification(authMD5, 0, resp)) {
 			UserData.addUser(firstName, lastName, permissionId, username, password);
-			
-			resp.setValue(1337);
+			resp.setValue(UserData.getUserId(username, password));
 		}
 		
 		return resp;
