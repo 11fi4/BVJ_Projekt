@@ -39,5 +39,5 @@ public interface DBAccess {
 	public void insertStudent(String firstName, String lastName, Date birthdate, String phone, String eMail,
 			String address, String gender);
 	
-	public void deleteUser(String userId);
+	public void deleteUser(String username, String password);
 }

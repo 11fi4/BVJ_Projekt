@@ -26,13 +26,11 @@ public class TestHelper {
 		
 		UserAccount mattAccount = impl.requestUser("username", "password");
 		
-		System.out.println("First request => " + mattAccount.getName());
-		
-		mattAccount = null;
-		
 		mattAccount = impl.requestUser("username", "password");
 		
-		System.out.println("Second request => " + mattAccount.getName());
+		impl.deleteUser("username", "password");
+		
+		mattAccount = impl.requestUser("username", "password");
 	}
 
 	public synchronized static void fillDB() {
