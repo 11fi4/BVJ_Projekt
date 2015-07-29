@@ -3,7 +3,7 @@ package com.impl.reportTest;
 import static org.junit.Assert.*;
 import org.junit.Test;
 
-import com.impl.report.XmlHelper;
+import com.impl.report.shared.XmlHelper;
 
 public class XmlHelperTests {
 

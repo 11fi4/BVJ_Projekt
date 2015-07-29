@@ -2,6 +2,9 @@ package com.impl.report;
 
 import java.nio.file.Path;
 
+import com.impl.report.shared.DocumentType;
+import com.impl.report.shared.Formats;
+
 /**
  * Baseclass for publisher
  * 

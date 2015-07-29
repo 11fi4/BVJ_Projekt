@@ -3,6 +3,8 @@ package com.impl.report.html;
 import java.nio.file.Path;
 
 import com.impl.report.*;
+import com.impl.report.shared.DocumentType;
+import com.impl.report.shared.Formats;
 
 public class HtmlPublisher extends PublisherBase {
 

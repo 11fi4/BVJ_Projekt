@@ -10,6 +10,9 @@ import javax.xml.parsers.*;
 
 import org.w3c.dom.*;
 
+import com.impl.report.shared.Formats;
+import com.impl.report.shared.XmlHelper;
+
 public class Configuration {
 
 	private static Path _tempDir;

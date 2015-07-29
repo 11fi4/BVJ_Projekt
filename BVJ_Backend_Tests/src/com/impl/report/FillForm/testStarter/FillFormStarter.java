@@ -1,6 +1,6 @@
 package com.impl.report.FillForm.testStarter;
 
-import com.impl.report.DocumentType;
+import com.impl.report.shared.DocumentType;
 import com.impl.report.FillForm.DocxFillForm;
 
 public class FillFormStarter {

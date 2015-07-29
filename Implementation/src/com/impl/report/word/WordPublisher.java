@@ -1,9 +1,9 @@
 package com.impl.report.word;
 
 import java.nio.file.Path;
-import com.impl.report.DocumentType;
-import com.impl.report.Formats;
-import com.impl.report.LoggingWrapper;
+import com.impl.report.shared.DocumentType;
+import com.impl.report.shared.Formats;
+import com.impl.report.shared.LoggingWrapper;
 import com.impl.report.PublisherBase;
 import com.impl.report.FillForm.DocxFillForm;
 

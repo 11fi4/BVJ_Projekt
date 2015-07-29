@@ -13,7 +13,7 @@ import org.apache.poi.xwpf.usermodel.XWPFTable;
 import org.apache.poi.xwpf.usermodel.XWPFTableCell;
 import org.apache.poi.xwpf.usermodel.XWPFTableRow;
 
-import com.impl.report.DocumentType;
+import com.impl.report.shared.DocumentType;
 
 /** Fills out the form of a given PDF and saves it to a new file */
 public class DocxFillForm {

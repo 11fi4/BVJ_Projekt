@@ -2,6 +2,8 @@ package com.impl.report;
 
 import java.util.Hashtable;
 
+import com.impl.report.shared.Formats;
+
 public class FormatSettings {
 
 	private Hashtable<String, String> _sets;

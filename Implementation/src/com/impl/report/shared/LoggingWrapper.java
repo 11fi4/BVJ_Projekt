@@ -1,4 +1,4 @@
-package com.impl.report;
+package com.impl.report.shared;
 
 import org.jboss.logging.Logger;
 import org.jboss.logging.Logger.Level;

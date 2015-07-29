@@ -2,7 +2,7 @@ package com.impl.reportTest;
 
 import com.impl.report.Configuration;
 import com.impl.report.FormatSettings;
-import com.impl.report.Formats;
+import com.impl.report.shared.Formats;
 
 import static org.junit.Assert.*;
 

@@ -9,6 +9,12 @@ import org.json.*;
 //report.publisher
 import com.impl.report.html.HtmlPublisher;
 import com.impl.report.pdf.PdfPublisher;
+import com.impl.report.shared.DocumentType;
+import com.impl.report.shared.Formats;
+import com.impl.report.shared.IoHelper;
+import com.impl.report.shared.JsonHelper;
+import com.impl.report.shared.LoggingWrapper;
+import com.impl.report.shared.XmlHelper;
 import com.impl.report.word.WordPublisher;
 
 /**
