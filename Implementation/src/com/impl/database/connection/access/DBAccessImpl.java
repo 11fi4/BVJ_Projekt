@@ -108,8 +108,6 @@ public class DBAccessImpl implements DBAccess {
 		}
 		
 		tx.commit();
-
-		session.close();
 		
 		return user;
 	}
