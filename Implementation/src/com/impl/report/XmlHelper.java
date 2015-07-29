@@ -91,13 +91,18 @@ public class XmlHelper {
 			out = new BufferedWriter(new FileWriter(path));
 			out.write(xml);
 			return true;
-		}
-		finally {
+		} catch (IOException e) {
+			LoggingWrapper.LogWarning("TODO", e);
+		} finally {
 			if (out != null) {
-				out.close();
+				try {
+					out.close();
+				} catch (IOException e) {
+					LoggingWrapper.LogWarning("TODO", e);
+				}
 			}
 		}
-		
+
 		return false;
 
 	}
