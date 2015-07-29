@@ -21,16 +21,18 @@ import com.impl.database.elements.Warning;
 
 public class DBAccessImpl implements DBAccess {
 	private DBConnectionManager dbConnectionManager = null;
-	private Session session;
-	
+
+	// private Session session;
+
 	public DBAccessImpl() {
 		dbConnectionManager = new DBConnectionManagerImpl();
 		// create citeria to get student steinam33
-		session = dbConnectionManager.getSessionFactory().openSession();
+		// session = dbConnectionManager.getSessionFactory().openSession();
 	}
 
 	@Override
 	public List<Student> requestAllStudentsInClass(String className) {
+		Session session = dbConnectionManager.getSessionFactory().openSession();
 		// first test implementation - not final
 		Transaction tx = session.beginTransaction();
 
@@ -41,14 +43,16 @@ public class DBAccessImpl implements DBAccess {
 		List<Student> list = criteria.list();
 
 		tx.commit();
-		
+
+		session.close();
+
 		// Student studentGet = (Student) list.iterator().next();
 		return list;
 	}
 
 	@Override
 	public List<Student> requestStudentByName(String firstName, String lastName) {
-		// first test implementation - not final
+		Session session = dbConnectionManager.getSessionFactory().openSession();
 
 		Transaction tx = session.beginTransaction();
 
@@ -62,27 +66,34 @@ public class DBAccessImpl implements DBAccess {
 		});
 
 		tx.commit();
-		
+
+		session.close();
+
 		return list;
 	}
-	
+
 	@Override
-	public List<Student> requestStudentByName(String firstName, String lastName, String classId) {
+	public List<Student> requestStudentByName(String firstName,
+			String lastName, String classId) {
+		Session session = dbConnectionManager.getSessionFactory().openSession();
+
 		Transaction tx = session.beginTransaction();
 
 		Criteria criteria = session.createCriteria(Student.class)
 				.add(Restrictions.eq("firstName", firstName))
 				.add(Restrictions.eq("lastName", lastName));
-		
+
 		// todo: add filter for class
-		
+
 		List<Student> list = new ArrayList<Student>();
 		criteria.list().forEach((instance) -> {
 			list.add((Student) instance);
 		});
 
 		tx.commit();
-		
+
+		session.close();
+
 		return list;
 	}
 
@@ -96,6 +107,8 @@ public class DBAccessImpl implements DBAccess {
 
 	@Override
 	public UserAccount requestUser(String username, String password) {
+		Session session = dbConnectionManager.getSessionFactory().openSession();
+
 		Transaction tx = session.beginTransaction();
 
 		Criteria criteria = session.createCriteria(UserAccount.class)
@@ -106,14 +119,18 @@ public class DBAccessImpl implements DBAccess {
 		if (criteria.list() != null && criteria.list().size() > 0) {
 			user = (UserAccount) criteria.list().get(0);
 		}
-		
+
 		tx.commit();
-		
+
+		session.close();
+
 		return user;
 	}
 
 	@Override
 	public List<Absent> requestStudentAbsents(String studentId) {
+		Session session = dbConnectionManager.getSessionFactory().openSession();
+
 		Transaction tx = session.beginTransaction();
 
 		Criteria criteria = session.createCriteria(Absent.class).add(
@@ -125,12 +142,16 @@ public class DBAccessImpl implements DBAccess {
 		});
 
 		tx.commit();
-		
+
+		session.close();
+
 		return list;
 	}
 
 	@Override
 	public List<Detension> requestStudentDetensions(String studentId) {
+		Session session = dbConnectionManager.getSessionFactory().openSession();
+
 		Transaction tx = session.beginTransaction();
 
 		Criteria criteria = session.createCriteria(Detension.class).add(
@@ -142,12 +163,16 @@ public class DBAccessImpl implements DBAccess {
 		});
 
 		tx.commit();
-		
+
+		session.close();
+
 		return list;
 	}
 
 	@Override
 	public List<Comment> requestStudentComments(String studentId) {
+		Session session = dbConnectionManager.getSessionFactory().openSession();
+
 		Transaction tx = session.beginTransaction();
 
 		Criteria criteria = session.createCriteria(Comment.class).add(
@@ -157,14 +182,18 @@ public class DBAccessImpl implements DBAccess {
 		criteria.list().forEach((instance) -> {
 			list.add((Comment) instance);
 		});
-		
+
 		tx.commit();
-		
+
+		session.close();
+
 		return list;
 	}
 
 	@Override
 	public List<Parent> requestStudentParents(String studentId) {
+		Session session = dbConnectionManager.getSessionFactory().openSession();
+
 		Transaction tx = session.beginTransaction();
 
 		Criteria criteria = session.createCriteria(Parent.class).add(
@@ -177,11 +206,15 @@ public class DBAccessImpl implements DBAccess {
 
 		tx.commit();
 
+		session.close();
+
 		return list;
 	}
 
 	@Override
 	public List<Warning> requestStudentWarnings(String studentId) {
+		Session session = dbConnectionManager.getSessionFactory().openSession();
+
 		Transaction tx = session.beginTransaction();
 
 		Criteria criteria = session.createCriteria(Warning.class).add(
@@ -193,24 +226,28 @@ public class DBAccessImpl implements DBAccess {
 		});
 
 		tx.commit();
-		
+
+		session.close();
+
 		return list;
 	}
-	
+
 	@Override
-	public void insertUser(String firstName, String lastName, String username, String password) {
-				
+	public void insertUser(String firstName, String lastName, String username,
+			String password) {
+
 		UserAccount userAcc = new UserAccount();
 		userAcc.setName(firstName + " " + lastName);
 		userAcc.setPassword(password);
 		userAcc.setUsername(username);
-		
+
 		dbConnectionManager.insert(userAcc);
 	}
-	
+
 	@Override
-	public void insertStudent(String firstName, String lastName, Date birthdate, String phone, String eMail,
-			String address, String gender) {
+	public void insertStudent(String firstName, String lastName,
+			Date birthdate, String phone, String eMail, String address,
+			String gender) {
 		Student student = new Student();
 		student.setFirstName(firstName);
 		student.setLastName(lastName);
@@ -219,21 +256,22 @@ public class DBAccessImpl implements DBAccess {
 		student.seteMail(eMail);
 		student.setAddress(address);
 		student.setGender(gender);
-		
-		
+
 		dbConnectionManager.insert(student);
 	}
 
 	@Override
 	public void addUserRole(String userId, String roleId) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
-	public void deleteUser(String userId) {
-		// TODO Auto-generated method stub
-		
+	public void deleteUser(String username, String password) {
+		UserAccount userToDelete = requestUser(username, password);
+		if (userToDelete != null) {
+			dbConnectionManager.delete(userToDelete);
+		}
 	}
 
 }
