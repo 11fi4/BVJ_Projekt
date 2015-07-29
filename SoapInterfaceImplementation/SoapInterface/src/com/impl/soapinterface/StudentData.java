@@ -51,6 +51,7 @@ public class StudentData {
 			int classId, 
 			String email, 
 			String phoneNumber, 
+			String address,
 			String gender
 		){
 		
@@ -61,49 +62,17 @@ public class StudentData {
 		newStudent.setGender(gender);
 		//Todo firstname
 		//newStudent.setName(name);
+		
 		System.out.println("Adding User to DB: "+firstName);
+		SoapConnectionManager.dbAccess.insertStudent(firstName, lastName, birthdate, phoneNumber, email, address, gender);
 	}
 	
+	public static void addStudentAbsence(int studentId, Date startTime, Date endTime, boolean medicalCert, boolean excused, boolean parentsContacted){
+		//TODO DB Implement
+	}
 	
-	/*
-	private static final long serialVersionUID = 1L;
-
-	@Id
-	@GeneratedValue
-	// (generator = "increment")
-	@Column(name = "user_id", unique = true, nullable = false)
-	protected int user_id;
-
-	@Column(name = "name", nullable = false)
-	protected String name;
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
-	public Set<Class> classes = new HashSet<Class>();
-
-	public User() {
+	public static void deleteStudent(int studentId){
+		//TODO DB Implement
+		//SoapConnectionManager.dbAccess.deleteStudent(studentId);
 	}
-
-	public int getUser_id() {
-		return user_id;
-	}
-
-	public void setUser_id(int user_id) {
-		this.user_id = user_id;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public Set<Class> getClasses() {
-		return classes;
-	}
-
-	public void setClasses(Set<Class> classes) {
-		this.classes = classes;
-	}
-	*/
 }

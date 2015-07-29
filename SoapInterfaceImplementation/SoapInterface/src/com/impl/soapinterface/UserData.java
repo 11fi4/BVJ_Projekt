@@ -4,9 +4,14 @@ import com.impl.database.connection.access.DBAccessImpl;
 import com.impl.database.elements.UserAccount;;
 
 public class UserData {
-
+	
 	public static void addUser(String firstName, String lastName, Integer permissionId, String username, String password){
 		SoapConnectionManager.dbAccess.insertUser(firstName, lastName, username, password);
+	}
+	
+	public static void deleteUser(int studentId){
+		//TODO DB
+		//SoapConnectionManager.dbAccess.
 	}
 	
 	public static int getUserId(String username, String password){
