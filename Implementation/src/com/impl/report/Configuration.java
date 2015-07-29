@@ -1,14 +1,17 @@
 package com.impl.report;
 
 import java.io.File;
-import java.util.*;
 import java.net.URI;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Hashtable;
 
-import javax.xml.parsers.*;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
 
-import org.w3c.dom.*;
+import org.w3c.dom.Document;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 import com.impl.report.shared.Formats;
 import com.impl.report.shared.XmlHelper;
