@@ -126,16 +126,15 @@ public class Configuration {
 
 						if (!_formatSettings.containsKey(set.GetFormat())) {
 							_formatSettings.put(set.GetFormat(), set);
-						} else {
-							// TODO throw exception with message that settings
-							// for a format a configured at least duplicate
 						}
 					}
 				}
 			}
+			_isInitialized = true;
+		} else {
+			_isInitialized = false;
 		}
 
-		_isInitialized = true;
 	}
 
 	/**
@@ -161,8 +160,8 @@ public class Configuration {
 			NodeList setNodes = node.getChildNodes();
 			for (int i = 0; i < setNodes.getLength(); i++) {
 				Node setNode = setNodes.item(i);
-				
-				// TODO: bug: localname is null, causes iteration to fail 
+
+				// TODO: bug: localname is null, causes iteration to fail
 				String localName = setNode.getLocalName();
 				if (localName == "Set") {
 					Node keyNode = setNode.getAttributes().getNamedItem("Key");
