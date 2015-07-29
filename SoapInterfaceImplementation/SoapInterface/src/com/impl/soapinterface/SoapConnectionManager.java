@@ -202,11 +202,16 @@ public class SoapConnectionManager {
 		return resp;
 	}
 
-	public ResponseBase modifyStudentAbsence(String authMD5, int studentId, int absenceId, String[] fieldsToModify, String[] dataToModify) {
+	public ResponseBase modifyStudentAbsence(String authMD5, int studentId, 
+			int absenceId, 
+			String timestampStart, String timestampEnd,
+			boolean medicalCert,
+			boolean excused,
+			boolean parentsContacted) {
 		ResponseBase resp = new ResponseBase();
 
 		if (userAuth.checkAthentification(authMD5, 0, resp)) {
-			//TODO interpret the arrays and modify the data in StudentData
+			//TODO implement
 			
 			//StudentData.addStudentAbsence(studentId, startTime, endTime);
 		}
