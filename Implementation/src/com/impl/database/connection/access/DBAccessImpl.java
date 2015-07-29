@@ -39,6 +39,9 @@ public class DBAccessImpl implements DBAccess {
 
 		criteria.setMaxResults(10);
 		List<Student> list = criteria.list();
+
+		tx.commit();
+		
 		// Student studentGet = (Student) list.iterator().next();
 		return list;
 	}
@@ -57,6 +60,9 @@ public class DBAccessImpl implements DBAccess {
 		criteria.list().forEach((instance) -> {
 			list.add((Student) instance);
 		});
+
+		tx.commit();
+		
 		return list;
 	}
 	
@@ -74,6 +80,9 @@ public class DBAccessImpl implements DBAccess {
 		criteria.list().forEach((instance) -> {
 			list.add((Student) instance);
 		});
+
+		tx.commit();
+		
 		return list;
 	}
 
@@ -97,8 +106,8 @@ public class DBAccessImpl implements DBAccess {
 		if (criteria.list() != null && criteria.list().size() > 0) {
 			user = (UserAccount) criteria.list().get(0);
 		}
-
-		session.close();
+		
+		tx.commit();
 		
 		return user;
 	}
@@ -114,6 +123,9 @@ public class DBAccessImpl implements DBAccess {
 		criteria.list().forEach((instance) -> {
 			list.add((Absent) instance);
 		});
+
+		tx.commit();
+		
 		return list;
 	}
 
@@ -128,6 +140,9 @@ public class DBAccessImpl implements DBAccess {
 		criteria.list().forEach((instance) -> {
 			list.add((Detension) instance);
 		});
+
+		tx.commit();
+		
 		return list;
 	}
 
@@ -142,6 +157,9 @@ public class DBAccessImpl implements DBAccess {
 		criteria.list().forEach((instance) -> {
 			list.add((Comment) instance);
 		});
+		
+		tx.commit();
+		
 		return list;
 	}
 
@@ -156,6 +174,9 @@ public class DBAccessImpl implements DBAccess {
 		criteria.list().forEach((instance) -> {
 			list.add((Parent) instance);
 		});
+
+		tx.commit();
+
 		return list;
 	}
 
@@ -170,6 +191,9 @@ public class DBAccessImpl implements DBAccess {
 		criteria.list().forEach((instance) -> {
 			list.add((Warning) instance);
 		});
+
+		tx.commit();
+		
 		return list;
 	}
 	
@@ -202,6 +226,12 @@ public class DBAccessImpl implements DBAccess {
 
 	@Override
 	public void addUserRole(String userId, String roleId) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void deleteUser(String userId) {
 		// TODO Auto-generated method stub
 		
 	}
